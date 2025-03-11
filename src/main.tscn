@@ -1,6 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://qsasokcehw0a"]
+[gd_scene load_steps=6 format=3 uid="uid://qsasokcehw0a"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_yv2dt"]
+[ext_resource type="Texture2D" uid="uid://w2t62dph7h7f" path="res://assets/Essential Isometric House Pack v1.0.1/Bedrooms/tiles/bdrm01_wall_crnIn.png" id="2_0cr6d"]
+[ext_resource type="Texture2D" uid="uid://1hol5n3c0c6e" path="res://assets/Essential Isometric House Pack v1.0.1/Bedrooms/tiles/bdrm01_wall_sngl_R.png" id="3_dwnin"]
+[ext_resource type="Texture2D" uid="uid://bnk5n6ogv1c6s" path="res://assets/Essential Isometric House Pack v1.0.1/Bedrooms/tiles/bdrm01_wall_ent01_L.png" id="4_txui5"]
+[ext_resource type="Texture2D" uid="uid://d4naksplu75hf" path="res://assets/Essential Isometric House Pack v1.0.1/Bedrooms/tiles/bdrm01_wall_sngl_L.png" id="5_cnf2a"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_yv2dt")
+
+[node name="Floors" type="Node2D" parent="."]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Bdrm01WallCrnIn" type="Sprite2D" parent="Walls"]
+position = Vector2(170, 113.5)
+texture = ExtResource("2_0cr6d")
+
+[node name="Bdrm01WallSnglR" type="Sprite2D" parent="Walls"]
+position = Vector2(207, 126)
+texture = ExtResource("3_dwnin")
+
+[node name="Bdrm01WallEnt01L" type="Sprite2D" parent="Walls"]
+position = Vector2(121, 132)
+texture = ExtResource("4_txui5")
+
+[node name="Bdrm01WallSnglL" type="Sprite2D" parent="Walls"]
+position = Vector2(85, 150)
+texture = ExtResource("5_cnf2a")
+
+[node name="Bdrm01WallSnglR2" type="Sprite2D" parent="Walls"]
+position = Vector2(231, 138)
+texture = ExtResource("3_dwnin")
+
+[node name="Bdrm01WallSnglL2" type="Sprite2D" parent="Walls"]
+position = Vector2(61, 162)
+texture = ExtResource("5_cnf2a")
