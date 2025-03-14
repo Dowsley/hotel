@@ -18,6 +18,11 @@ const VFRAMES := 4
 ## Visual offset for placement (y-offset) - mainly for vertical alignment
 @export var visual_offset: Vector2 = Vector2(0, -24) # -16*1.5. Made sense at some point but I forgot why.
 
+## Y-sort origin offset for proper depth sorting
+## A higher value will push the object more to the back (draw earlier)
+## Default is 0, meaning it will use the sprite's default y-sort position
+@export var y_sort_origin: float = 0.0
+
 
 func create() -> FurniSprite:
 	var sprite := FurniSprite.new()
