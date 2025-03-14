@@ -2,10 +2,14 @@ extends Node2D
 
 
 @onready var furni_option_button: OptionButton = %FurniOptionButton
+@onready var camera: Camera2D = $Camera2D
 
 
 @export var furni_types_path: StringName = "res://data/furni_types"
 @export var curr_room: Room
+@export var min_zoom: float = 1.0  # Maximum zoom in
+@export var max_zoom: float = 4.0  # Maximum zoom out
+@export var zoom_step: float = 0.1  # How much to zoom per scroll
 
 
 var furni_types: Array[FurniType] = []
@@ -88,6 +92,29 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Handle 'R' key for rotating ghost furniture
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
 		rotate_ghost_furniture()
+		
+	# Handle mouse wheel for zooming
+	if event is InputEventMouseButton:
+		if event.pressed:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				# Zoom in
+				zoom_camera(-zoom_step)
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				# Zoom out
+				zoom_camera(zoom_step)
+
+
+# Adjust the camera zoom based on the input
+func zoom_camera(zoom_amount: float) -> void:
+	if camera:
+		# Get current zoom value
+		var current_zoom = camera.zoom.x
+		
+		# Calculate new zoom value
+		var new_zoom = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
+		
+		# Apply new zoom
+		camera.zoom = Vector2(new_zoom, new_zoom)
 
 
 func _process(_delta: float) -> void:
