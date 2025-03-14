@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://cjkvo87sbvvii"]
+
+[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_4xx1y"]
+[ext_resource type="Texture2D" uid="uid://bv1qvnkrft2v6" path="res://assets/objects/normal/00_Furniture/small/Armchair_0_0.png" id="2_42vl1"]
+
+[resource]
+script = ExtResource("1_4xx1y")
+name = &"Armchair 0"
+sprite_sheet = ExtResource("2_42vl1")
+hframes = 1
+default_rotation_frame = 0

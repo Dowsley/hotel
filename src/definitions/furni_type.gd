@@ -1,6 +1,7 @@
 @tool
 class_name FurniType extends Resource
 
+@export var name: StringName
 
 ## Number of rows in the spritesheet. Represents the amount of different angles a Furniture has. For now the default is 4.
 ## Therefore, advancing the coordinate 'y' in framecoords will lead to rotation.

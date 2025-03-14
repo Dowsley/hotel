@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bv1qvnkrft2v6" path="res://assets/objects/normal/00_Furniture/small/Armchair_0_0.png" id="1_muxl4"]
 [ext_resource type="Script" path="res://src/core/furni_sprite.gd" id="2_1jsbm"]
-[ext_resource type="Resource" uid="uid://cjkvo87sbvvii" path="res://data/armchair_0_0.tres" id="3_way6f"]
+[ext_resource type="Resource" uid="uid://cjkvo87sbvvii" path="res://data/furni_types/armchair_0_0.tres" id="3_way6f"]
 
 [node name="FurniSprite" type="Sprite2D"]
 texture = ExtResource("1_muxl4")

@@ -1,5 +1,7 @@
 # Hotel
 ## TODO
 - [X] Walls & Floors
-- [ ] Add objects
-
+- [X] Add basic furni support
+- [ ] Walls
+- [ ] Windows
+- [ ] Doors

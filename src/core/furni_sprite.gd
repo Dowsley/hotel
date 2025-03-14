@@ -15,8 +15,9 @@ class_name FurniSprite extends Sprite2D
 
 @export var frame_time_ms: float = 200.0
 
+
 var current_anim_frame := 0
-var animation_timer: float = 0.0
+var animation_timer := 0.0
 
 
 func _ready() -> void:
@@ -31,11 +32,11 @@ func _process(delta: float) -> void:
 		set_animation_frame(current_anim_frame)
 
 
-func setup(type: FurniType) -> void:
-	texture = type.sprite_sheet
+func setup(m_type: FurniType) -> void:
+	texture = m_type.sprite_sheet
 	frame_coords.x = type.default_rotation_frame
-	vframes = type.VFRAMES
-	hframes = type.hframes
+	vframes = m_type.VFRAMES
+	hframes = m_type.hframes
 
 
 func set_rotation_frame(target_v_frame: int) -> void:
