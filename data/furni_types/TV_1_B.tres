@@ -7,8 +7,9 @@
 script = ExtResource("1_davg7")
 name = &"Animated TV 1"
 sprite_sheet = ExtResource("2_khuy8")
-hframes = 4
+frame_time_ms = 200.0
 default_rotation_frame = 0
+vframes = 4
+hframes = 4
 visual_offset = Vector2(0, -24)
 y_sort_origin = 0.0
-frame_time_ms = 200.0

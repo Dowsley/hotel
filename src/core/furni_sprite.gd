@@ -10,7 +10,7 @@ class_name FurniSprite extends Sprite2D
 ## Maps to frame_coords.x
 @export var current_rotation_frame := 0:
 	set(value):
-		current_rotation_frame = max(min(value, type.VFRAMES-1), 0)
+		current_rotation_frame = max(min(value, type.vframes-1), 0)
 		set_rotation_frame(current_rotation_frame)
 
 ## Maps to frame_coords.x
@@ -32,8 +32,8 @@ func _process(delta: float) -> void:
 
 func setup(m_type: FurniType) -> void:
 	texture = m_type.sprite_sheet
-	frame_coords.x = type.default_rotation_frame
-	vframes = m_type.VFRAMES
+	frame_coords.y = type.default_rotation_frame
+	vframes = m_type.vframes
 	hframes = m_type.hframes
 	
 	# Apply custom depth sorting
@@ -58,7 +58,7 @@ func set_animation_frame(target_h_frame: int) -> void:
 ## Returns the new rotation frame index
 func rotate_to_next_frame() -> int:
 	# Calculate the next rotation frame (wrap around when reaching max frames)
-	var next_rotation = (current_rotation_frame + 1) % type.VFRAMES
+	var next_rotation = (current_rotation_frame + 1) % type.vframes
 	
 	# Use the setter which handles bounds checking and applying the visual change
 	current_rotation_frame = next_rotation

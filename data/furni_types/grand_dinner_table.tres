@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://cusbt0mmxjxcr"]
+
+[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_ndof7"]
+[ext_resource type="Texture2D" uid="uid://cd2xir5fau52o" path="res://assets/objects/normal/00_Furniture/large/Grand_dinner_table.png" id="2_gsa6p"]
+
+[resource]
+script = ExtResource("1_ndof7")
+name = &"Grand Dinner Table"
+sprite_sheet = ExtResource("2_gsa6p")
+frame_time_ms = 200.0
+default_rotation_frame = 0
+vframes = 4
+hframes = 1
+visual_offset = Vector2(0, -24)
+y_sort_origin = 0.0
