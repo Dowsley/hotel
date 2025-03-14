@@ -9,3 +9,4 @@ name = &"Armchair 0"
 sprite_sheet = ExtResource("2_42vl1")
 hframes = 1
 default_rotation_frame = 0
+visual_offset = Vector2(0, -24)

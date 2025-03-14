@@ -15,6 +15,9 @@ const VFRAMES := 4
 @export var hframes := 1
 @export var default_rotation_frame := 0
 
+## Visual offset for placement (y-offset) - mainly for vertical alignment
+@export var visual_offset: Vector2 = Vector2(0, -24) # -16*1.5. Made sense at some point but I forgot why.
+
 
 func create() -> FurniSprite:
 	var sprite := FurniSprite.new()

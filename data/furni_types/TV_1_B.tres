@@ -9,3 +9,4 @@ name = &"Animated TV 1"
 sprite_sheet = ExtResource("2_khuy8")
 hframes = 4
 default_rotation_frame = 0
+visual_offset = Vector2(0, -24)

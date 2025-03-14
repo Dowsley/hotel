@@ -91,6 +91,9 @@ func _process(_delta: float) -> void:
 		# Move the ghost furniture preview
 		if ghost_furni and hovered_tile != Vector2i(-1, -1):
 			ghost_furni.position = tile_to_world(hovered_tile)
+			
+			# Apply vertical offset from the furniture type
+			ghost_furni.position += ghost_furni.type.visual_offset
 
 
 func _draw() -> void:
@@ -109,9 +112,8 @@ func place_furniture_at_mouse() -> void:
 			var tile_center_world = floor_tile_map.to_global(floor_tile_map.map_to_local(hovered_tile))
 			furni_sprite.position = tile_center_world
 			
-			# Furniture sprites often need a height adjustment for proper isometric appearance
-			# Uncomment and adjust if necessary for your specific sprites
-			# furni_sprite.position.y -= furni_type.visual_offset.y
+			# Apply vertical offset from the furniture type
+			furni_sprite.position += furni_type.visual_offset
 			
 			add_child(furni_sprite)
 
