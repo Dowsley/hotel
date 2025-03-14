@@ -3,7 +3,7 @@
 - [X] Walls & Floors
 - [X] Add Furniture system
 - [ ] Doors (in the wall, not furnis)
-- [ ] Multi-block support
+- [ ] Multi-tile furniture support
 - [ ] Beautiful windows effect sceneries!
 - [ ] Modes (clicking twice)
     - Pay attention to animation modes

@@ -10,3 +10,5 @@ sprite_sheet = ExtResource("2_42vl1")
 hframes = 1
 default_rotation_frame = 0
 visual_offset = Vector2(0, -24)
+y_sort_origin = 0.0
+frame_time_ms = 200.0
