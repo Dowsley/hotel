@@ -13,19 +13,20 @@ extends Node2D
 
 
 var furni_types: Array[FurniType] = []
-var floor_tile_map: TileMapLayer
+var floor_tile_map: TileMapLayer = null
 
-var hovered_tile: Vector2i = Vector2i(-1, -1)  # Tile under the mouse
-var ghost_furni: FurniSprite = null            # Furniture preview
+var hovered_tile: Vector2i = Vector2i(-1, -1)
+## For furniture preview
+var ghost_furni: FurniSprite = null
 
-# Grid visualization
+## Grid visualization
 var grid_marker: Node2D = null
 
-# Container for all furniture with Y-sorting
+## Container for all furniture with Y-sorting
 var furniture_container: Node2D = null
 
-# Dictionary to track furniture by position
-# Key: Vector2i (tile position), Value: FurniSprite
+## Dictionary to track furniture by position
+## Key: Vector2i (tile position), Value: FurniSprite
 var furni_by_position: Dictionary = {}
 
 
@@ -37,12 +38,8 @@ func _ready() -> void:
 
 	floor_tile_map = curr_room.floor_tile_map
 	
-	# Create a grid marker to show the selected tile
 	create_grid_marker()
-	
-	# Create a Y-sorted container for furniture
 	create_furniture_container()
-	
 	furni_option_button.selected = 0
 	_on_furni_option_button_item_selected(0)
 
@@ -64,12 +61,10 @@ func load_furni_types() -> void:
 
 func populate_option_button() -> void:
 	furni_option_button.clear()
-
 	for i: int in range(furni_types.size()):
 		furni_option_button.add_item(furni_types[i].name, i)
 
 
-## Remove old ghost furniture if it exists
 func _on_furni_option_button_item_selected(index: int) -> void:
 	if ghost_furni:
 		ghost_furni.queue_free()
@@ -80,58 +75,43 @@ func _on_furni_option_button_item_selected(index: int) -> void:
 
 	# Don't add ghost furniture to the Y-sorted container
 	# It should always be on top of other furniture
-	ghost_furni.z_index = 100  # Ensure it's always on top
+	ghost_furni.z_index = 100 # Ensure it's always on top
 	add_child(ghost_furni)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Handle left-click for placing furniture
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		place_furniture_at_mouse()
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			place_furniture_at_mouse()
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			remove_furniture_at_mouse()
 	
-	# Handle 'R' key for rotating ghost furniture
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
 		rotate_ghost_furniture()
 		
-	# Handle mouse wheel for zooming
 	if event is InputEventMouseButton:
 		if event.pressed:
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				# Zoom in
 				zoom_camera(-zoom_step)
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				# Zoom out
 				zoom_camera(zoom_step)
 
 
-# Adjust the camera zoom based on the input
-func zoom_camera(zoom_amount: float) -> void:
-	if camera:
-		# Get current zoom value
-		var current_zoom = camera.zoom.x
-		
-		# Calculate new zoom value
-		var new_zoom = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
-		
-		# Apply new zoom
-		camera.zoom = Vector2(new_zoom, new_zoom)
-
-
 func _process(_delta: float) -> void:
-	var mouse_pos: Vector2 = get_global_mouse_position()
-	var new_hovered_tile = world_to_tile(mouse_pos)
+	var mouse_pos := get_global_mouse_position()
+	var new_hovered_tile := world_to_tile(mouse_pos)
 	
 	# Only update if the hovered tile has changed
 	if new_hovered_tile != hovered_tile:
 		hovered_tile = new_hovered_tile
 		
 		# Check if the hovered tile is valid (is a floor and has no furniture)
-		var is_valid_tile = is_valid_tile_position(hovered_tile)
+		var is_valid_tile := is_valid_tile_position(hovered_tile)
 		
 		# Update the grid marker position - only show on valid floor tiles
 		if grid_marker:
 			if is_valid_tile:
-				var tile_center_world = floor_tile_map.to_global(floor_tile_map.map_to_local(hovered_tile))
+				var tile_center_world := floor_tile_map.to_global(floor_tile_map.map_to_local(hovered_tile))
 				grid_marker.position = tile_center_world
 				grid_marker.visible = true
 			else:
@@ -140,36 +120,28 @@ func _process(_delta: float) -> void:
 		# Update ghost furniture visibility and position based on validity
 		if ghost_furni:
 			if is_valid_tile and hovered_tile != Vector2i(-1, -1):
-				# Show and position ghost furniture on valid tiles
 				ghost_furni.position = tile_to_world(hovered_tile)
 				ghost_furni.position += ghost_furni.type.visual_offset
 				ghost_furni.visible = true
 				ghost_furni.modulate = Color(1, 1, 1, 0.5)  # Normal semi-transparent
 			else:
-				# Hide ghost furniture on invalid tiles
 				ghost_furni.visible = false
 
 
-func _draw() -> void:
-	pass
+func zoom_camera(zoom_amount: float) -> void:
+	if camera:
+		var current_zoom := camera.zoom.x
+		var new_zoom: float = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
+		camera.zoom = Vector2(new_zoom, new_zoom)
 
 
-# Check if a tile position is valid for placing furniture
 func is_valid_tile_position(tile_pos: Vector2i) -> bool:
-	# Check if the position is out of bounds
-	if tile_pos == Vector2i(-1, -1):
-		return false
-	
-	# Check if there's a floor tile at this position
-	# Use get_cell_source_id to check if there's a tile at this position
 	if floor_tile_map.get_cell_source_id(tile_pos) < 0:
 		return false
 	
-	# Check if furniture already exists at this position
 	if furni_by_position.has(tile_pos):
 		return false
 	
-	# If passed all checks, the position is valid
 	return true
 
 
@@ -182,7 +154,7 @@ func place_furniture_at_mouse() -> void:
 			var furni_sprite: FurniSprite = furni_type.create()
 			
 			# Get the exact world position for the center of the tile
-			var tile_center_world = floor_tile_map.to_global(floor_tile_map.map_to_local(hovered_tile))
+			var tile_center_world := floor_tile_map.to_global(floor_tile_map.map_to_local(hovered_tile))
 			furni_sprite.position = tile_center_world
 			
 			# Apply vertical offset from the furniture type
@@ -209,17 +181,16 @@ func tile_to_world(tile_pos: Vector2i) -> Vector2:
 	return floor_tile_map.to_global(floor_tile_map.map_to_local(tile_pos))
 
 
-# Creates a dedicated node for showing the grid highlight
+## Creates a dedicated node for showing the grid highlight
 func create_grid_marker() -> void:
 	grid_marker = GridMarker.new()
 	add_child(grid_marker)
 	
-	# Set initial tile size
 	if floor_tile_map and floor_tile_map.tile_set:
 		grid_marker.set("tile_size", floor_tile_map.tile_set.tile_size)
 
 
-# Creates a Y-sorted container for all furniture
+## Creates a Y-sorted container for all furniture
 func create_furniture_container() -> void:
 	furniture_container = Node2D.new()
 	furniture_container.name = "FurnitureContainer"
@@ -227,8 +198,43 @@ func create_furniture_container() -> void:
 	add_child(furniture_container)
 
 
-# Rotates the ghost furniture to the next rotation frame
+## Rotates the ghost furniture to the next rotation frame
 func rotate_ghost_furniture() -> void:
 	if ghost_furni:
-		# Use the encapsulated rotation method from FurniSprite
 		ghost_furni.rotate_to_next_frame()
+
+
+## Removes furniture at the current mouse position if it exists
+func remove_furniture_at_mouse() -> void:
+	if hovered_tile != Vector2i(-1, -1):
+		# Check if there's furniture at this position
+		if furni_by_position.has(hovered_tile):
+			# Get the furniture sprite
+			var furni_sprite: FurniSprite = furni_by_position[hovered_tile]
+			
+			# Remove from scene
+			furni_sprite.queue_free()
+			
+			# Remove from tracking dictionary
+			furni_by_position.erase(hovered_tile)
+			
+			# Update ghost visibility immediately
+			update_ghost_visibility()
+
+
+## Updates ghost furniture visibility based on current hover position
+## Used to refresh ghost state without moving the mouse
+func update_ghost_visibility() -> void:
+	if ghost_furni and hovered_tile != Vector2i(-1, -1):
+		# Check if the current hovered tile is valid now
+		var is_valid_tile := is_valid_tile_position(hovered_tile)
+		
+		if is_valid_tile:
+			# Show and position ghost furniture on valid tiles
+			ghost_furni.position = tile_to_world(hovered_tile)
+			ghost_furni.position += ghost_furni.type.visual_offset
+			ghost_furni.visible = true
+			ghost_furni.modulate = Color(1, 1, 1, 0.5)  # Normal semi-transparent
+		else:
+			# Hide ghost furniture on invalid tiles
+			ghost_furni.visible = false

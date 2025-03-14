@@ -13,8 +13,6 @@ class_name FurniSprite extends Sprite2D
 		current_rotation_frame = max(min(value, type.VFRAMES-1), 0)
 		set_rotation_frame(current_rotation_frame)
 
-@export var frame_time_ms: float = 200.0
-
 ## Maps to frame_coords.x
 var current_anim_frame := 0
 var animation_timer := 0.0
@@ -26,8 +24,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	animation_timer += delta * 1000
-	if animation_timer >= frame_time_ms:
-		animation_timer -= frame_time_ms
+	if animation_timer >= type.frame_time_ms:
+		animation_timer -= type.frame_time_ms
 		current_anim_frame = (current_anim_frame + 1) % type.hframes
 		set_animation_frame(current_anim_frame)
 

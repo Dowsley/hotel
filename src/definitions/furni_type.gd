@@ -23,6 +23,8 @@ const VFRAMES := 4
 ## Default is 0, meaning it will use the sprite's default y-sort position
 @export var y_sort_origin: float = 0.0
 
+@export var frame_time_ms: float = 200.0
+
 
 func create() -> FurniSprite:
 	var sprite := FurniSprite.new()

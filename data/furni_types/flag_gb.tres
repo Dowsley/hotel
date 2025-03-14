@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://0l2xc6x6s8ld"]
+
+[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_e181c"]
+[ext_resource type="Texture2D" uid="uid://4p0oaq5ixtjs" path="res://assets/objects/normal/01_Wallobjects/small/Flag_gb.png" id="2_se4u5"]
+
+[resource]
+script = ExtResource("1_e181c")
+name = &"Flag GB"
+sprite_sheet = ExtResource("2_se4u5")
+hframes = 1
+default_rotation_frame = 0
+visual_offset = Vector2(0, -24)
+y_sort_origin = 0.0
+frame_time_ms = 200.0
