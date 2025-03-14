@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://qsasokcehw0a"]
 
 [ext_resource type="Texture2D" uid="uid://mcarkdt0clos" path="res://assets/backgrounds/8.png" id="1_xar1f"]
-[ext_resource type="PackedScene" uid="uid://do2ql5uq371ey" path="res://src/basic_room.tscn" id="2_vwu6e"]
+[ext_resource type="PackedScene" uid="uid://do2ql5uq371ey" path="res://scenes/rooms/basic_room.tscn" id="2_0ui1j"]
 
 [node name="Main" type="Node2D"]
 
@@ -12,6 +12,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("1_xar1f")
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
-[node name="BasicRoom" parent="." instance=ExtResource("2_vwu6e")]
+[node name="BasicRoom" parent="." instance=ExtResource("2_0ui1j")]
 position = Vector2(474, 359)
