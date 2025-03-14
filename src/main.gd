@@ -57,15 +57,14 @@ func populate_option_button() -> void:
 
 ## Remove old ghost furniture if it exists
 func _on_furni_option_button_item_selected(index: int) -> void:
-	pass
-	#if ghost_furni:
-		#ghost_furni.queue_free()
-#
-	#var selected_furni: FurniType = furni_types[index]
-	#ghost_furni = selected_furni.create()
-	#ghost_furni.modulate = Color(1, 1, 1, 0.5)  # Semi-transparent preview
-#
-	#add_child(ghost_furni)
+	if ghost_furni:
+		ghost_furni.queue_free()
+
+	var selected_furni: FurniType = furni_types[index]
+	ghost_furni = selected_furni.create()
+	ghost_furni.modulate = Color(1, 1, 1, 0.5)  # Semi-transparent preview
+
+	add_child(ghost_furni)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -129,46 +128,8 @@ func tile_to_world(tile_pos: Vector2i) -> Vector2:
 
 # Creates a dedicated node for showing the grid highlight
 func create_grid_marker() -> void:
-	grid_marker = Node2D.new()
-	grid_marker.name = "GridMarker"
+	grid_marker = GridMarker.new()
 	add_child(grid_marker)
-	
-	# Create a new script instance for the grid marker
-	var script = GDScript.new()
-	script.source_code = """
-extends Node2D
-
-var tile_size: Vector2 = Vector2(32, 16)  # Default tile size, will be updated
-
-func _ready() -> void:
-	# Make sure this node is always drawn on top
-	z_index = 10
-
-func _process(_delta: float) -> void:
-	# Ensure it's always redrawn
-	queue_redraw()
-
-func _draw() -> void:
-	# Define the diamond points based on tile size
-	var points = []
-	points.append(Vector2(0, -tile_size.y/2))          # Top
-	points.append(Vector2(tile_size.x/2, 0))           # Right
-	points.append(Vector2(0, tile_size.y/2))           # Bottom
-	points.append(Vector2(-tile_size.x/2, 0))          # Left
-	points.append(Vector2(0, -tile_size.y/2))          # Back to top (close the shape)
-	
-	# Draw the diamond outline with a nice yellow color
-	draw_polyline(points, Color(1, 1, 0, 1), 2.0)
-	
-	# Optional: Draw the center point for reference
-	draw_circle(Vector2.ZERO, 3, Color(1, 0, 0, 1))
-	
-	# Optional: Fill the diamond with a semi-transparent color
-	draw_colored_polygon(points, Color(1, 1, 0, 0.2))
-"""
-	script.reload()
-	
-	grid_marker.set_script(script)
 	
 	# Set initial tile size
 	if floor_tile_map and floor_tile_map.tile_set:
