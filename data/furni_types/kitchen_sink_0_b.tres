@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://cmtemqruvxuu5"]
+
+[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_lhdym"]
+[ext_resource type="Texture2D" uid="uid://ftobv11f5tst" path="res://assets/objects/normal/00_Furniture/small/Kitchen_sink_0_B.png" id="2_upfl2"]
+
+[resource]
+script = ExtResource("1_lhdym")
+name = &"Kitchen Sink 0 B"
+sprite_sheet = ExtResource("2_upfl2")
+hframes = 4
+default_rotation_frame = 0
+visual_offset = Vector2(0, -24)
+y_sort_origin = 0.0
+frame_time_ms = 200.0
