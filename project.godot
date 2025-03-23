@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Hotel"
 config/description="Isometric, potentially multiplayer project about creating and sharing rooms. Inspired by a once famous game."
+config/tags=PackedStringArray("2d")
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://assets/icon.png"
