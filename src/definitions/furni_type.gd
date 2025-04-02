@@ -4,8 +4,6 @@ class_name FurniType extends Resource
 @export var name: StringName
 
 
-
-
 @export var sprite_sheet: Texture2D
 @export var frame_time_ms: float = 200.0
 @export var default_rotation_frame := 0
