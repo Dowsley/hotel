@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://bavc3bm7utcnv"]
 
-[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_5ckpx"]
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_5ckpx"]
 [ext_resource type="Texture2D" uid="uid://dwpbeubhjkokl" path="res://assets/objects/normal/00_Furniture/medium/Bed_0_0.png" id="2_eo1a7"]
 
 [resource]

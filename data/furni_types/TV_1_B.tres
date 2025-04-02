@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://dqio6xprlub5"]
 
-[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_davg7"]
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_davg7"]
 [ext_resource type="Texture2D" uid="uid://rn0bb7nso31r" path="res://assets/objects/normal/00_Furniture/small/TV_1_B.png" id="2_khuy8"]
 
 [resource]

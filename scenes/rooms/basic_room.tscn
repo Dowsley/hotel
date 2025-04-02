@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://do2ql5uq371ey"]
 
-[ext_resource type="Script" path="res://src/rooms/room.gd" id="1_5txcy"]
+[ext_resource type="Script" uid="uid://cv2404pw6duce" path="res://src/rooms/room.gd" id="1_5txcy"]
 [ext_resource type="Texture2D" uid="uid://be7gnerpqqpoi" path="res://assets/wall_atlas.png" id="1_udcdi"]
 [ext_resource type="Texture2D" uid="uid://bkhsmal5702x0" path="res://assets/floor_atlas.png" id="2_bs1ec"]
 

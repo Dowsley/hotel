@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://brxkxqa4tm4lw"]
 
-[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_c51io"]
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_c51io"]
 [ext_resource type="Texture2D" uid="uid://d235anbqlr4on" path="res://assets/objects/normal/01_Wallobjects/small/Curtains_2.png" id="2_5lpx4"]
 
 [resource]

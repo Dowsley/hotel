@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://0l2xc6x6s8ld"]
 
-[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_e181c"]
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_e181c"]
 [ext_resource type="Texture2D" uid="uid://4p0oaq5ixtjs" path="res://assets/objects/normal/01_Wallobjects/small/Flag_gb.png" id="2_se4u5"]
 
 [resource]

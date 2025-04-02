@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://cuirsrb2n1nys"]
 
-[ext_resource type="Script" path="res://src/definitions/furni_type.gd" id="1_tsnyp"]
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_tsnyp"]
 [ext_resource type="Texture2D" uid="uid://c3clm6xn1ia8v" path="res://assets/objects/normal/01_Wallobjects/small/Clock_0.png" id="2_xh6ah"]
 
 [resource]

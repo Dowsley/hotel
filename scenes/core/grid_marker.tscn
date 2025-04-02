@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cyxarn27rm3ak"]
 
-[ext_resource type="Script" path="res://src/core/grid_marker.gd" id="1_jhhfx"]
+[ext_resource type="Script" uid="uid://dw3s70ub1ygr3" path="res://src/core/grid_marker.gd" id="1_jhhfx"]
 
 [node name="GridMarker" type="Node2D"]
 z_index = 10
