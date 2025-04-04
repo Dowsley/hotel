@@ -12,4 +12,5 @@ default_rotation_frame = 0
 vframes = 2
 hframes = 1
 visual_offset = Vector2(24, -24)
-y_sort_origin = 0.0
+y_sort_origin = 0
+area_extends_by = Vector2i(1, -2)

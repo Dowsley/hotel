@@ -102,11 +102,10 @@ func place_furniture_at_mouse() -> void:
 	if ghost_furni and ghost_furni.visible:
 		var selected_index: int = furni_option_button.get_selected_id()
 		if selected_index != -1:
-			var furni_type: FurniType = furni_types[selected_index]
 			var rotation_frame: int = ghost_furni.current_rotation_frame
 			
 			# Delegate to the room to place furniture
-			curr_room.place_furniture(furni_type, hovered_tile, rotation_frame)
+			curr_room.place_furniture(ghost_furni, hovered_tile, rotation_frame)
 
 
 func remove_furniture_at_mouse() -> void:
