@@ -22,6 +22,10 @@
 		- [ ] Select: Clicking will select furnis
 			- Popup with actions should appear.
 			- Actions: Rotate, move, pick up.
+- [ ] Spike: Generate Furni Data AUTOMATICALLY from assets folder
+	- We already have a strict sizing for spritesheets.
+	- We already have strict naming for variations
+	- Dynamically generate that on load!
 - [ ] Wall objects should NOT be like regular Furniture.
 	- Make them like Habbo
 - [ ] Stacking
