@@ -7,15 +7,14 @@ class_name Room extends Node2D
 @onready var floor_tile_map: TileMapLayer = $Floor
 
 
-## Dictionary to track furniture by position
-## Key: Vector2i (tile position), Value: FurniSprite
-var furni_by_position: Dictionary = {}
+## Dictionary to track where furniture are placed
+var furni_by_position: Dictionary[Vector2i, FurniSprite] = {}
 
 ## For furniture preview
 var ghost_furni: FurniSprite = null
 
 ## Grid visualization
-var grid_marker: Node2D = null
+var grid_marker: GridMarker = null
 
 
 func _ready() -> void:
@@ -76,7 +75,20 @@ func place_furniture(furni_type: FurniType, tile_pos: Vector2i, rotation_frame: 
 		furni_sprite.position += furni_type.visual_offset
 		furni_sprite.current_rotation_frame = rotation_frame
 		furniture_container.add_child(furni_sprite)
-		furni_by_position[tile_pos] = furni_sprite
+
+		var bound_start := tile_pos
+		var bound_end := tile_pos + furni_sprite.type.area_extends_by
+		var x_start = min(bound_start.x, bound_end.x)
+		var x_end = max(bound_start.x, bound_end.x)
+		var y_start = min(bound_start.y, bound_end.y)
+		var y_end = max(bound_start.y, bound_end.y)
+		
+		# Add 1 to the end values to ensure at least one iteration even when start == end
+		for x in range(x_start, x_end + 1):
+			for y in range(y_start, y_end + 1):
+				var pos := Vector2i(x, y)
+				furni_by_position[pos] = furni_sprite
+				furni_sprite.occupied_positions.append(pos)
 		
 		return true
 	
@@ -87,8 +99,10 @@ func place_furniture(furni_type: FurniType, tile_pos: Vector2i, rotation_frame: 
 func remove_furniture(tile_pos: Vector2i) -> bool:
 	if furni_by_position.has(tile_pos):
 		var furni_sprite: FurniSprite = furni_by_position[tile_pos]
+		for pos in furni_sprite.occupied_positions:
+			furni_by_position.erase(pos)
+		
 		furni_sprite.queue_free()
-		furni_by_position.erase(tile_pos)
 		
 		return true
 	

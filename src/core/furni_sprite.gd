@@ -17,6 +17,8 @@ class_name FurniSprite extends Sprite2D
 var current_anim_frame := 0
 var animation_timer := 0.0
 
+var occupied_positions: Array[Vector2i] = []
+
 
 func _ready() -> void:
 	assert(type != null, "Error: Can't create furni with no type.")
@@ -39,11 +41,11 @@ func setup(m_type: FurniType) -> void:
 	# Apply custom depth sorting
 	# In Godot 4, individual sprites don't have y_sort_origin directly
 	# The parent Node2D handles the y-sorting
-	if m_type.y_sort_origin != 0.0:
+	if m_type.y_sort_origin != 0:
 		# Set z_index based on the y position for depth sorting
 		# This works when the parent doesn't have y_sort_enabled
 		# Otherwise, the parent's y_sort_enabled will handle sorting
-		z_index = int(m_type.y_sort_origin)
+		z_index = m_type.y_sort_origin
 
 
 func set_rotation_frame(target_v_frame: int) -> void:
