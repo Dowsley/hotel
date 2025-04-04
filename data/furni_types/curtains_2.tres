@@ -1,15 +1,23 @@
-[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://brxkxqa4tm4lw"]
+[gd_resource type="Resource" script_class="FurniType" load_steps=5 format=3 uid="uid://brxkxqa4tm4lw"]
 
 [ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_c51io"]
 [ext_resource type="Texture2D" uid="uid://d235anbqlr4on" path="res://assets/objects/normal/01_Wallobjects/small/Curtains_2.png" id="2_5lpx4"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_b34ek"]
+
+[sub_resource type="Resource" id="Resource_vi3du"]
+script = ExtResource("2_b34ek")
+sprite_sheet = ExtResource("2_5lpx4")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
 
 [resource]
 script = ExtResource("1_c51io")
 name = &"Curtains 2"
-sprite_sheet = ExtResource("2_5lpx4")
-frame_time_ms = 200.0
+variations = Array[ExtResource("2_b34ek")]([SubResource("Resource_vi3du")])
+default_variation = 0
 default_rotation_frame = 0
 vframes = 4
-hframes = 1
 visual_offset = Vector2(0, -24)
-y_sort_origin = 0.0
+y_sort_origin = 0
+area_extends_by = Vector2i(0, 0)

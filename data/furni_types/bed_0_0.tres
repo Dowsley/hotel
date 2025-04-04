@@ -1,16 +1,23 @@
-[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://bavc3bm7utcnv"]
+[gd_resource type="Resource" script_class="FurniType" load_steps=5 format=3 uid="uid://bavc3bm7utcnv"]
 
 [ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_5ckpx"]
 [ext_resource type="Texture2D" uid="uid://dwpbeubhjkokl" path="res://assets/objects/normal/00_Furniture/medium/Bed_0_0.png" id="2_eo1a7"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_r1853"]
+
+[sub_resource type="Resource" id="Resource_lblus"]
+script = ExtResource("2_r1853")
+sprite_sheet = ExtResource("2_eo1a7")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
 
 [resource]
 script = ExtResource("1_5ckpx")
 name = &"Bed 0 0"
-sprite_sheet = ExtResource("2_eo1a7")
-frame_time_ms = 200.0
+variations = Array[ExtResource("2_r1853")]([SubResource("Resource_lblus")])
+default_variation = 0
 default_rotation_frame = 0
 vframes = 4
-hframes = 1
 visual_offset = Vector2(8, -24)
 y_sort_origin = 0
 area_extends_by = Vector2i(0, -1)

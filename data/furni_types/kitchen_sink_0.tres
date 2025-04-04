@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=7 format=3 uid="uid://cmtemqruvxuu5"]
+
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_pxfm1"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_6v8uc"]
+[ext_resource type="Texture2D" uid="uid://f24bq0fjn6r8" path="res://assets/objects/normal/00_Furniture/small/Kitchen_sink_0_A.png" id="3_wouhm"]
+[ext_resource type="Texture2D" uid="uid://ftobv11f5tst" path="res://assets/objects/normal/00_Furniture/small/Kitchen_sink_0_B.png" id="4_7juk2"]
+
+[sub_resource type="Resource" id="Resource_3lea4"]
+script = ExtResource("2_6v8uc")
+sprite_sheet = ExtResource("3_wouhm")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
+
+[sub_resource type="Resource" id="Resource_o7qfw"]
+script = ExtResource("2_6v8uc")
+sprite_sheet = ExtResource("4_7juk2")
+hframes = 4
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
+
+[resource]
+script = ExtResource("1_pxfm1")
+name = &"Kitchen Sink 0"
+variations = Array[ExtResource("2_6v8uc")]([SubResource("Resource_3lea4"), SubResource("Resource_o7qfw")])
+default_variation = 0
+default_rotation_frame = 0
+vframes = 4
+visual_offset = Vector2(0, -24)
+y_sort_origin = 0
+area_extends_by = Vector2i(0, 0)

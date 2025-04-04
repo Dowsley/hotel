@@ -1,15 +1,23 @@
-[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://d3qqjvplmccjy"]
+[gd_resource type="Resource" script_class="FurniType" load_steps=5 format=3 uid="uid://d3qqjvplmccjy"]
 
 [ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_wbwv2"]
 [ext_resource type="Texture2D" uid="uid://djug6c5c2biv8" path="res://assets/objects/normal/03_Doors_windows/small/Window_0.png" id="2_4t0e1"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_ynp7b"]
+
+[sub_resource type="Resource" id="Resource_swnhf"]
+script = ExtResource("2_ynp7b")
+sprite_sheet = ExtResource("2_4t0e1")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
 
 [resource]
 script = ExtResource("1_wbwv2")
 name = &"Window 0"
-sprite_sheet = ExtResource("2_4t0e1")
-frame_time_ms = 200.0
+variations = Array[ExtResource("2_ynp7b")]([SubResource("Resource_swnhf")])
+default_variation = 0
 default_rotation_frame = 0
 vframes = 4
-hframes = 1
 visual_offset = Vector2(0, -24)
-y_sort_origin = 0.0
+y_sort_origin = 0
+area_extends_by = Vector2i(0, 0)

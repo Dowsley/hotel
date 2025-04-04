@@ -11,15 +11,24 @@ class_name FurniSprite extends Sprite2D
 @export var current_rotation_frame := 0:
 	set(value):
 		current_rotation_frame = max(min(value, type.vframes-1), 0)
+		current_rotation_frame = max(min(value, type.vframes-1), 0)
+		curr_variation = 0
 		set_rotation_frame(current_rotation_frame)
 		update_sorting()  # Update sorting when rotation changes
 
+
+var animation_timer := 0.0
 ## Maps to frame_coords.x
 var current_anim_frame := 0
-var animation_timer := 0.0
-
 var occupied_positions: Array[Vector2i] = []
 
+var curr_variation: int = 0:
+	set(value):
+		var count = type.variations.size()
+		if count > 0:
+			curr_variation = (value % count + count) % count  # ensures wraparound for negative values too
+		else:
+			curr_variation = 0  # fallback if no variations
 
 func _ready() -> void:
 	assert(type != null, "Error: Can't create furni with no type.")
@@ -27,21 +36,32 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	animation_timer += delta * 1000
-	if animation_timer >= type.frame_time_ms:
-		animation_timer -= type.frame_time_ms
-		current_anim_frame = (current_anim_frame + 1) % type.hframes
+	if animation_timer >= type.get_variation(curr_variation).frame_time_ms:
+		animation_timer -= type.get_variation(curr_variation).frame_time_ms
+		current_anim_frame = (current_anim_frame + 1) % type.get_variation(curr_variation).hframes
 		set_animation_frame(current_anim_frame)
 
 
 func setup(m_type: FurniType) -> void:
-	texture = m_type.sprite_sheet
+	texture = m_type.get_variation(curr_variation).sprite_sheet
 	frame_coords.y = type.default_rotation_frame
 	vframes = m_type.vframes
-	hframes = m_type.hframes
+	hframes = m_type.get_variation(curr_variation).hframes
 	
 	# Basic z-index from the type
 	if m_type.y_sort_origin != 0:
 		z_index = m_type.y_sort_origin
+	
+	update_sorting()
+
+
+func refresh() -> void:
+	texture = type.get_variation(curr_variation).sprite_sheet
+	hframes = type.get_variation(curr_variation).hframes
+	
+	# Basic z-index from the type
+	if type.y_sort_origin != 0:
+		z_index = type.y_sort_origin
 	
 	update_sorting()
 

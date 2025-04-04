@@ -4,19 +4,20 @@
 - [X] Add Furniture system
 - [X] Multi-tile furniture support
 - [X] Fix kinda buggy Y-sort for large furnis
-- [ ] Modes (clicking twice)
+- [X] Variations (clicking twice)
 	- Pay attention to animation modes
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
-		- Modes will be like rotating between different spritesheets.
-	- Pay attention to rotation modes (and things that cant or shouldnt be rotated, like wall stuff)
-- [ ] Wall objects should NOT be like regular Furniture.
-	- Make them like Habbo
+		- Variations will be like rotating between different spritesheets.
+	- Pay attention to rotation (and things that cant or shouldnt be rotated, like wall stuff)
 - [ ] Skybox support
 - [ ] Beautiful windows effect sceneries!
-- [ ] Furni tags
+- [ ] Wall objects should NOT be like regular Furniture.
+	- Make them like Habbo
+- [ ] Furni tags & categories
+- [ ] Player and interaction
+  - Probably will need major refactor
 - [ ] Stacking
 - [ ] Floors & walls changing
 	- [ ] Floor vs Floor furniture
-- [ ] Player and interaction
 - [ ] UI
 - [ ] Multiplayer?

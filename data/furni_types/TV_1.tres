@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="FurniType" load_steps=7 format=3 uid="uid://dqio6xprlub5"]
+
+[ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_33y1d"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_sdg5k"]
+[ext_resource type="Texture2D" uid="uid://ckoga336reyt" path="res://assets/objects/normal/00_Furniture/small/TV_1_A.png" id="3_6q0pf"]
+[ext_resource type="Texture2D" uid="uid://rn0bb7nso31r" path="res://assets/objects/normal/00_Furniture/small/TV_1_B.png" id="4_tyst2"]
+
+[sub_resource type="Resource" id="Resource_526rq"]
+script = ExtResource("2_sdg5k")
+sprite_sheet = ExtResource("3_6q0pf")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
+
+[sub_resource type="Resource" id="Resource_5nwun"]
+script = ExtResource("2_sdg5k")
+sprite_sheet = ExtResource("4_tyst2")
+hframes = 4
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
+
+[resource]
+script = ExtResource("1_33y1d")
+name = &"TV 1"
+variations = Array[ExtResource("2_sdg5k")]([SubResource("Resource_526rq"), SubResource("Resource_5nwun")])
+default_variation = 0
+default_rotation_frame = 0
+vframes = 4
+visual_offset = Vector2(0, -24)
+y_sort_origin = 0
+area_extends_by = Vector2i(0, 0)

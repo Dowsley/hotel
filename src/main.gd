@@ -91,6 +91,10 @@ func _process(_delta: float) -> void:
 		rotate_ghost_furniture()
 		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
 
+	if Input.is_action_just_pressed("furni_select_next_variation"):
+		curr_room.switch_variation_at_position(hovered_tile)
+		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
+
 
 func zoom_camera(zoom_amount: float) -> void:
 	if camera:

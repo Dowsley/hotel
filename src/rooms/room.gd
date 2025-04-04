@@ -107,6 +107,19 @@ func place_furniture(ghost_furni: FurniSprite, tile_pos: Vector2i, rotation_fram
 	return false
 
 
+## Attempts to switch the variation of the mobi under pos.
+## Will return true if successful (furni exists).
+## If furni has only one variation, switching will technically be successful.
+func switch_variation_at_position(pos: Vector2i) -> bool:
+	var furni := furni_by_position.get(pos) as FurniSprite
+	if not furni:
+		return false
+	
+	furni.curr_variation += 1
+	furni.refresh()
+	return true
+
+
 ## Remove furniture at the specified tile position
 func remove_furniture(tile_pos: Vector2i) -> bool:
 	if furni_by_position.has(tile_pos):

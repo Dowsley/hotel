@@ -1,16 +1,23 @@
-[gd_resource type="Resource" script_class="FurniType" load_steps=3 format=3 uid="uid://cusbt0mmxjxcr"]
+[gd_resource type="Resource" script_class="FurniType" load_steps=5 format=3 uid="uid://cusbt0mmxjxcr"]
 
 [ext_resource type="Script" uid="uid://58xbbl6knnyv" path="res://src/definitions/furni_type.gd" id="1_ndof7"]
 [ext_resource type="Texture2D" uid="uid://cd2xir5fau52o" path="res://assets/objects/normal/00_Furniture/large/Grand_dinner_table.png" id="2_gsa6p"]
+[ext_resource type="Script" uid="uid://c1ncwd64pf880" path="res://src/definitions/furni_variation.gd" id="2_l6cdx"]
+
+[sub_resource type="Resource" id="Resource_jwbcf"]
+script = ExtResource("2_l6cdx")
+sprite_sheet = ExtResource("2_gsa6p")
+hframes = 1
+frame_time_ms = 200.0
+metadata/_custom_type_script = "uid://c1ncwd64pf880"
 
 [resource]
 script = ExtResource("1_ndof7")
 name = &"Grand Dinner Table"
-sprite_sheet = ExtResource("2_gsa6p")
-frame_time_ms = 200.0
+variations = Array[ExtResource("2_l6cdx")]([SubResource("Resource_jwbcf")])
+default_variation = 0
 default_rotation_frame = 0
 vframes = 2
-hframes = 1
 visual_offset = Vector2(24, -24)
 y_sort_origin = 0
 area_extends_by = Vector2i(1, -2)
