@@ -67,9 +67,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			place_furniture_at_mouse()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			remove_furniture_at_mouse()
-	
-	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
-		rotate_ghost_furniture()
 		
 	if event is InputEventMouseButton:
 		if event.pressed:
@@ -88,6 +85,10 @@ func _process(_delta: float) -> void:
 		hovered_tile = new_hovered_tile
 		
 		# Update ghost and grid marker in the room
+		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
+	
+	if Input.is_action_just_pressed("furni_rotate"):
+		rotate_ghost_furniture()
 		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
 
 

@@ -43,7 +43,6 @@ func setup_grid_markers() -> void:
 ## Updates ghost furniture visibility based on current hover position
 func update_ghost_at_tile(ghost: FurniSprite, tile_pos: Vector2i) -> void:
 		var can_place_tile := true
-		
 		var positions_to_occupy := get_positions_furni_will_occupy(tile_pos, ghost)
 		var n_positions := positions_to_occupy.size()
 		var n_grid_markers := grid_marker_pool.size()
@@ -135,7 +134,7 @@ func tile_to_world(tile_pos: Vector2i) -> Vector2:
 ## Better to consolidate logic here, even if it's "slow"
 func get_positions_furni_will_occupy(curr_tile_pos: Vector2i, furni: FurniSprite) -> Array[Vector2i]:
 	var bound_start := curr_tile_pos
-	var bound_end := curr_tile_pos + furni.type.area_extends_by
+	var bound_end := curr_tile_pos + furni.get_area_extends_by()
 	var x_start: int = min(bound_start.x, bound_end.x)
 	var x_end: int = max(bound_start.x, bound_end.x)
 	var y_start: int = min(bound_start.y, bound_end.y)

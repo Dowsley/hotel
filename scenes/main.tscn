@@ -6,11 +6,9 @@
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("curr_room")]
 script = ExtResource("1_eldj0")
-furni_types_path = null
 curr_room = NodePath("BasicRoom")
 min_zoom = 0.2
 max_zoom = 10.0
-zoom_step = null
 
 [node name="BG" type="TextureRect" parent="."]
 visible = false

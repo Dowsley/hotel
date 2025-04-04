@@ -66,3 +66,14 @@ func rotate_to_next_frame() -> int:
 	current_rotation_frame = next_rotation
 	
 	return current_rotation_frame
+
+
+## Returns the area in which that furni extends to.
+## Applies rotation
+func get_area_extends_by() -> Vector2i:
+	var r := type.area_extends_by
+	if current_rotation_frame % 2 == 1:
+		var temp := r.y
+		r.y = -r.x
+		r.x = -temp
+	return r

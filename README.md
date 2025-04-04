@@ -2,8 +2,8 @@
 ## TODO
 - [X] Walls & Floors
 - [X] Add Furniture system
-- [ ] Multi-tile furniture support
-	- Refactor grid system
+- [X] Multi-tile furniture support
+- [ ] Fix kinda buggy Y-sort for large furnis
 - [ ] Modes (clicking twice)
 	- Pay attention to animation modes
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
@@ -13,6 +13,7 @@
 	- Make them like Habbo
 - [ ] Skybox support
 - [ ] Beautiful windows effect sceneries!
+- [ ] Furni tags
 - [ ] Stacking
 - [ ] Floors & walls changing
 	- [ ] Floor vs Floor furniture
