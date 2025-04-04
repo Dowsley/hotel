@@ -37,6 +37,13 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_TAB:
+			var next_mode := InputModes.PLACE if current_input_handler is SelectingInputHandler else InputModes.SELECT
+			set_input_handler(next_mode)
+			get_viewport().set_input_as_handled()
+			return
+			
 	if event is InputEventMouseButton and event.pressed:
 		match event.button_index:
 			MOUSE_BUTTON_WHEEL_UP:
@@ -44,7 +51,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			MOUSE_BUTTON_WHEEL_DOWN:
 				zoom_camera(zoom_step)
 	
-	current_input_handler.handle_input(event)
+	var command := current_input_handler.handle_input(event)
+	
+	if command:
+		var success := CommandRegistry.execute_command(command, self)
+		
+		if success and current_input_handler:
+			current_input_handler.on_hover_tile_changed(hovered_tile)
 
 
 func _process(_delta: float) -> void:
@@ -83,9 +96,7 @@ func _on_furni_option_button_item_selected(index: int) -> void:
 
 	var selected_furni: FurniType = furni_types[index]
 	ghost_furni = selected_furni.create()
-	ghost_furni.modulate = Color(1, 1, 1, 0.5)  # Semi-transparent preview
-
-	# Set a high z_index to ensure it's always on top of other furniture
+	ghost_furni.modulate = Color(1, 1, 1, 0.5)
 	ghost_furni.z_index = 100
 	add_child(ghost_furni)
 	
@@ -98,21 +109,6 @@ func zoom_camera(zoom_amount: float) -> void:
 		var current_zoom := camera.zoom.x
 		var new_zoom: float = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
 		camera.zoom = Vector2(new_zoom, new_zoom)
-
-
-func place_furniture_at_mouse() -> void:
-	if ghost_furni and ghost_furni.visible:
-		var selected_index: int = furni_option_button.get_selected_id()
-		if selected_index != -1:
-			var rotation_frame: int = ghost_furni.current_rotation_frame
-			
-			# Delegate to the room to place furniture
-			curr_room.place_furniture(ghost_furni, hovered_tile, rotation_frame)
-
-
-func remove_furniture_at_mouse() -> void:
-	if curr_room.remove_furniture(hovered_tile):
-		update_ghost_at_tile(hovered_tile)
 
 
 func rotate_ghost_furniture() -> void:

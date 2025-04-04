@@ -21,6 +21,10 @@ config/icon="res://assets/icon.png"
 
 buses/default_bus_layout=""
 
+[autoload]
+
+CommandRegistry="*res://src/commands/command_registry.gd"
+
 [display]
 
 window/size/mode=3
