@@ -1,9 +1,8 @@
 @tool
 class_name FurniType extends Resource
 
+
 @export var name: StringName
-
-
 
 
 @export var sprite_sheet: Texture2D
@@ -26,10 +25,23 @@ class_name FurniType extends Resource
 ## Y-sort origin offset for proper depth sorting
 ## A higher value will push the object more to the back (draw earlier)
 ## Default is 0, meaning it will use the sprite's default y-sort position
-@export var y_sort_origin: float = 0.0
+@export var y_sort_origin: int = 0
+
+## How long the area of the Furni extends, and to what direction?
+## 0, 0 by default = occupies 1 tile.
+## Can be negative, since we have 2 directions for each axis where the furni can extend to.
+@export var area_extends_by := Vector2i(0, 0)
 
 
 func create() -> FurniSprite:
 	var sprite := FurniSprite.new()
 	sprite.type = self  # This has a setter that will set it up internally.
 	return sprite
+
+
+func get_size() -> Vector2i:
+	return area_extends_by.abs()
+
+
+func get_area() -> int:
+	return area_extends_by.x * area_extends_by.y

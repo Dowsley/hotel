@@ -3,6 +3,7 @@ class_name GridMarker extends Node2D
 
 
 var tile_size: Vector2 = Vector2(32, 16)  # Default tile size, will be updated
+var color := Color(1, 1, 0, 1)
 
 
 func _ready() -> void:
@@ -23,10 +24,10 @@ func _draw() -> void:
 	points.append(Vector2(0, -tile_size.y/2))          # Back to top (close the shape)
 	
 	# Draw the diamond outline with a nice yellow color
-	draw_polyline(points, Color(1, 1, 0, 1), 2.0, true)
+	draw_polyline(points, color, 2.0, true)
 	
 	# Optional: Draw the center point for reference
 	#draw_circle(Vector2.ZERO, 3, Color(1, 0, 0, 1))
 	
 	# Optional: Fill the diamond with a semi-transparent color
-	draw_colored_polygon(points, Color(1, 1, 0, 0.2))
+	draw_colored_polygon(points, Color(color, 0.2))
