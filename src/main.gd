@@ -1,4 +1,10 @@
-extends Node2D
+class_name Main extends Node2D
+
+
+enum InputModes {
+	PLACE,
+	SELECT,
+}
 
 
 @onready var furni_option_button: OptionButton = %FurniOptionButton
@@ -15,6 +21,7 @@ extends Node2D
 var furni_types: Array[FurniType] = []
 var hovered_tile: Vector2i = Vector2i(-1, -1)
 var ghost_furni: FurniSprite = null
+var current_input_handler: InputHandler
 
 
 func _ready() -> void:
@@ -25,6 +32,28 @@ func _ready() -> void:
 	
 	furni_option_button.selected = 0
 	_on_furni_option_button_item_selected(0)
+	
+	set_input_handler(InputModes.PLACE)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		match event.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				zoom_camera(-zoom_step)
+			MOUSE_BUTTON_WHEEL_DOWN:
+				zoom_camera(zoom_step)
+	
+	current_input_handler.handle_input(event)
+
+
+func _process(_delta: float) -> void:
+	var mouse_pos := get_global_mouse_position()
+	var new_hovered_tile := curr_room.world_to_tile(mouse_pos)
+	
+	if new_hovered_tile != hovered_tile:
+		hovered_tile = new_hovered_tile
+		current_input_handler.on_hover_tile_changed(hovered_tile)
 
 
 func load_furni_types() -> void:
@@ -59,41 +88,9 @@ func _on_furni_option_button_item_selected(index: int) -> void:
 	# Set a high z_index to ensure it's always on top of other furniture
 	ghost_furni.z_index = 100
 	add_child(ghost_furni)
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			place_furniture_at_mouse()
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			remove_furniture_at_mouse()
-		
-	if event is InputEventMouseButton:
-		if event.pressed:
-			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				zoom_camera(-zoom_step)
-			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				zoom_camera(zoom_step)
-
-
-func _process(_delta: float) -> void:
-	var mouse_pos := get_global_mouse_position()
-	var new_hovered_tile := curr_room.world_to_tile(mouse_pos)
 	
-	# Only update if the hovered tile has changed
-	if new_hovered_tile != hovered_tile:
-		hovered_tile = new_hovered_tile
-		
-		# Update ghost and grid marker in the room
-		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
-	
-	if Input.is_action_just_pressed("furni_rotate"):
-		rotate_ghost_furniture()
-		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
-
-	if Input.is_action_just_pressed("furni_select_next_variation"):
-		curr_room.switch_variation_at_position(hovered_tile)
-		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
+	if current_input_handler:
+		current_input_handler.on_furniture_selected()
 
 
 func zoom_camera(zoom_amount: float) -> void:
@@ -115,10 +112,27 @@ func place_furniture_at_mouse() -> void:
 
 func remove_furniture_at_mouse() -> void:
 	if curr_room.remove_furniture(hovered_tile):
-		# Update ghost visibility after removal
-		curr_room.update_ghost_at_tile(ghost_furni, hovered_tile)
+		update_ghost_at_tile(hovered_tile)
 
 
 func rotate_ghost_furniture() -> void:
 	if ghost_furni:
 		ghost_furni.rotate_to_next_frame()
+
+
+func update_ghost_at_tile(tile: Vector2i) -> void:
+	if ghost_furni:
+		curr_room.update_ghost_at_tile(ghost_furni, tile)
+
+
+func set_input_handler(mode: InputModes) -> void:
+	if current_input_handler:
+		current_input_handler.exit()
+	
+	match mode:
+		InputModes.PLACE:
+			current_input_handler = PlacingInputHandler.new(self)
+		InputModes.SELECT:
+			current_input_handler = SelectingInputHandler.new(self)
+	
+	current_input_handler.enter()

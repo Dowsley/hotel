@@ -42,35 +42,49 @@ func setup_grid_markers() -> void:
 
 ## Updates ghost furniture visibility based on current hover position
 func update_ghost_at_tile(ghost: FurniSprite, tile_pos: Vector2i) -> void:
-		var can_place_tile := true
-		var positions_to_occupy := get_positions_furni_will_occupy(tile_pos, ghost)
-		var n_positions := positions_to_occupy.size()
-		var n_grid_markers := grid_marker_pool.size()
-		
-		# Update grid markers
-		var i := 0
-		while i < n_grid_markers:
-			var gm := grid_marker_pool[i]
-			if i < n_positions:
-				var p := positions_to_occupy[i]
-				var is_valid_pos := is_valid_tile_position(p)
-				gm.color = GRID_MARKER_AVAILABLE_COLOR if is_valid_pos else GRID_MARKER_OCCUPIED_COLOR
-				gm.position = tile_to_world(p)
-				gm.visible = true
-				
-				can_place_tile = can_place_tile && is_valid_pos
-			else:
-				gm.visible = false
-			i += 1
-		
-		# Update ghost
-		if can_place_tile:
-			ghost.position = tile_to_world(tile_pos)
-			ghost.position += ghost.type.visual_offset
-			ghost.visible = true
-		else:
-			ghost.visible = false
+	var can_place := update_grid_markers_at_tile(tile_pos, ghost)
+	update_ghost_visibility(ghost, tile_pos, can_place)
 
+
+## Updates only the grid markers for a given tile position and furniture
+## Returns whether placement is valid
+func update_grid_markers_at_tile(tile_pos: Vector2i, furni: FurniSprite) -> bool:
+	var can_place_tile := true
+	var positions_to_occupy := get_positions_furni_will_occupy(tile_pos, furni)
+	var n_positions := positions_to_occupy.size()
+	var n_grid_markers := grid_marker_pool.size()
+	
+	# Update grid markers
+	var i := 0
+	while i < n_grid_markers:
+		var gm := grid_marker_pool[i]
+		if i < n_positions:
+			var p := positions_to_occupy[i]
+			var is_valid_pos := is_valid_tile_position(p)
+			gm.color = GRID_MARKER_AVAILABLE_COLOR if is_valid_pos else GRID_MARKER_OCCUPIED_COLOR
+			gm.position = tile_to_world(p)
+			gm.visible = true
+			
+			can_place_tile = can_place_tile && is_valid_pos
+		else:
+			gm.visible = false
+		i += 1
+	
+	return can_place_tile
+
+
+## Updates only the ghost furniture visibility
+func update_ghost_visibility(ghost: FurniSprite, tile_pos: Vector2i, can_place: bool) -> void:
+	if can_place:
+		ghost.position = tile_to_world(tile_pos)
+		ghost.position += ghost.type.visual_offset
+		ghost.visible = true
+	else:
+		ghost.visible = false
+
+func get_furniture_at_tile(tile_pos: Vector2i) -> FurniSprite:
+	return furni_by_position.get(tile_pos)
+	
 
 ## Check if a tile position is valid for placing furniture
 func is_valid_tile_position(tile_pos: Vector2i) -> bool:

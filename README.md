@@ -7,9 +7,9 @@
 - [X] Variations (clicking twice)
 	- Pay attention to animation modes
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
-		- Variations will be like rotating between different spritesheets.
-	- Pay attention to rotation (and things that cant or shouldnt be rotated, like wall stuff)
-- [ ] UI + Better controls and handling (BIG FEATURE)
+		- Variations will be like rotating between different SpriteSheets.
+	- Pay attention to rotation (and things that cant or shouldn't be rotated, like wall stuff)
+- [...] UI + Better controls and handling (BIG FEATURE)
 	- Closer to habbo! But better. Will need to find assets.
 	- [ ] Basic dock with buttons. Should probably be vertical on the left for clean look.
 	- [ ] Inventory
