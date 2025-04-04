@@ -12,6 +12,7 @@ class_name FurniSprite extends Sprite2D
 	set(value):
 		current_rotation_frame = max(min(value, type.vframes-1), 0)
 		set_rotation_frame(current_rotation_frame)
+		update_sorting()  # Update sorting when rotation changes
 
 ## Maps to frame_coords.x
 var current_anim_frame := 0
@@ -38,14 +39,38 @@ func setup(m_type: FurniType) -> void:
 	vframes = m_type.vframes
 	hframes = m_type.hframes
 	
-	# Apply custom depth sorting
-	# In Godot 4, individual sprites don't have y_sort_origin directly
-	# The parent Node2D handles the y-sorting
+	# Basic z-index from the type
 	if m_type.y_sort_origin != 0:
-		# Set z_index based on the y position for depth sorting
-		# This works when the parent doesn't have y_sort_enabled
-		# Otherwise, the parent's y_sort_enabled will handle sorting
 		z_index = m_type.y_sort_origin
+	
+	update_sorting()
+
+
+## Updates sorting to account for rotation and size.
+func update_sorting() -> void:
+	var extends_by := get_area_extends_by()
+	
+	if extends_by != Vector2i.ZERO:
+		# For isometric view, we need to handle different cases based on the furniture's extension
+		# Direction matters for proper sorting.
+		var base_z := type.y_sort_origin
+		
+		# In isometric, +y direction is "down and right", -y is "up and left"
+		if extends_by.y < 0:
+			# Furniture extends upward (e.g., tall cabinet)
+			# Make it appear further back by decreasing z-index
+			base_z -= abs(extends_by.y) * 10
+		elif extends_by.y > 0:
+			# Furniture extends downward/forward
+			# Make it appear more in front by increasing z-index
+			base_z += extends_by.y * 5
+		
+		# Handle x-axis extensions as well (left/right in isometric)
+		if extends_by.x != 0:
+			# Apply a smaller adjustment for x-axis
+			base_z += extends_by.x * 2
+		
+		z_index = base_z
 
 
 func set_rotation_frame(target_v_frame: int) -> void:
