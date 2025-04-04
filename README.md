@@ -3,7 +3,7 @@
 - [X] Walls & Floors
 - [X] Add Furniture system
 - [X] Multi-tile furniture support
-- [ ] Fix kinda buggy Y-sort for large furnis
+- [X] Fix kinda buggy Y-sort for large furnis
 - [ ] Modes (clicking twice)
 	- Pay attention to animation modes
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
