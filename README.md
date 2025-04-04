@@ -9,14 +9,27 @@
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
 		- Variations will be like rotating between different spritesheets.
 	- Pay attention to rotation (and things that cant or shouldnt be rotated, like wall stuff)
-- [ ] Skybox support
-- [ ] Beautiful windows effect sceneries!
+- [ ] UI + Better controls and handling (BIG FEATURE)
+	- Closer to habbo! But better. Will need to find assets.
+	- [ ] Basic dock with buttons. Should probably be vertical on the left for clean look.
+	- [ ] Inventory
+		- Should show preview of all items.
+		- For now, we should have 99 instances of each type of item.
+	- [ ] Interaction Modes (start top to bottom for ease)
+		- [ ] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
+			- Build mode: Inventory & placing objects
+			- Should mostly look like what it already does now
+		- [ ] Select: Clicking will select furnis
+			- Popup with actions should appear.
+			- Actions: Rotate, move, pick up.
 - [ ] Wall objects should NOT be like regular Furniture.
 	- Make them like Habbo
+- [ ] Stacking
+- [ ] Skybox support
+- [ ] Beautiful windows effect sceneries!
 - [ ] Furni tags & categories
 - [ ] Player and interaction
   - Probably will need major refactor
-- [ ] Stacking
 - [ ] Floors & walls changing
 	- [ ] Floor vs Floor furniture
 - [ ] UI
