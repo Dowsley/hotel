@@ -27,8 +27,6 @@ func handle_input(event: InputEvent) -> Command:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Input.is_action_pressed("furni_rotate"):
 			return CommandRegistry.create_rotate_command()
-		elif Input.is_action_pressed("furni_select_next_variation"):
-			main.curr_room.switch_variation_at_position(main.hovered_tile)
 		elif Input.is_key_pressed(KEY_TAB):
 			main.set_input_handler(main.InputModes.SELECT)
 	
