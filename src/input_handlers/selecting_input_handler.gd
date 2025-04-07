@@ -49,7 +49,8 @@ func handle_input(event: InputEvent) -> Command:
 
 func on_hover_tile_changed(tile: Vector2i) -> void:
 	# Only update grid markers in selection mode, keep ghost invisible
-	main.curr_room.update_grid_markers_at_tile(tile, main.ghost_furni)
+	if main.ghost_furni:
+		main.curr_room.update_grid_markers_at_tile(tile, main.ghost_furni)
 
 
 func on_furniture_selected() -> void:

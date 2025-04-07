@@ -8,14 +8,10 @@ enum InputModes {
 
 
 @onready var furni_option_button: OptionButton = %FurniOptionButton
-@onready var camera: Camera2D = $Camera2D
 
 
 @export var furni_types_path: StringName = "res://data/furni_types"
 @export var curr_room: Room
-@export var min_zoom: float = 1.0  # Maximum zoom in
-@export var max_zoom: float = 4.0  # Maximum zoom out
-@export var zoom_step: float = 0.1  # How much to zoom per scroll
 
 
 var furni_types: Array[FurniType] = []
@@ -44,12 +40,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 			
-	if event is InputEventMouseButton and event.pressed:
-		match event.button_index:
-			MOUSE_BUTTON_WHEEL_UP:
-				zoom_camera(-zoom_step)
-			MOUSE_BUTTON_WHEEL_DOWN:
-				zoom_camera(zoom_step)
+	#if event is InputEventMouseButton and event.pressed:
+		#match event.button_index:
+			#MOUSE_BUTTON_WHEEL_UP:
+				#zoom_camera(-zoom_step)
+			#MOUSE_BUTTON_WHEEL_DOWN:
+				#zoom_camera(zoom_step)
 	
 	var command := current_input_handler.handle_input(event)
 	
@@ -98,17 +94,17 @@ func _on_furni_option_button_item_selected(index: int) -> void:
 	ghost_furni = selected_furni.create()
 	ghost_furni.modulate = Color(1, 1, 1, 0.5)
 	ghost_furni.z_index = 100
-	add_child(ghost_furni)
+	curr_room.add_child(ghost_furni)
 	
 	if current_input_handler:
 		current_input_handler.on_furniture_selected()
 
 
-func zoom_camera(zoom_amount: float) -> void:
-	if camera:
-		var current_zoom := camera.zoom.x
-		var new_zoom: float = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
-		camera.zoom = Vector2(new_zoom, new_zoom)
+#func zoom_camera(zoom_amount: float) -> void:
+	#if camera:
+		#var current_zoom := camera.zoom.x
+		#var new_zoom: float = clamp(current_zoom - zoom_amount, min_zoom, max_zoom)
+		#camera.zoom = Vector2(new_zoom, new_zoom)
 
 
 func rotate_ghost_furniture() -> void:
