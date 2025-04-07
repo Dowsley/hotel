@@ -1,13 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://qsasokcehw0a"]
+[gd_scene load_steps=10 format=3 uid="uid://qsasokcehw0a"]
 
 [ext_resource type="Script" uid="uid://bkkkqwo08fqvp" path="res://src/main.gd" id="1_eldj0"]
 [ext_resource type="Texture2D" uid="uid://sk2uo8v4nver" path="res://assets/backgrounds/0.png" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://do2ql5uq371ey" path="res://scenes/rooms/basic_room.tscn" id="2_0ui1j"]
+[ext_resource type="Texture2D" uid="uid://cbnmpgj2tr4px" path="res://assets/ui/Catalog_Icons.png" id="4_jyhfs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
-bg_color = Color(0.333333, 0.333333, 0.333333, 1)
-border_width_right = 2
-border_color = Color(0.54902, 0.54902, 0.54902, 1)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.105882, 0.113725, 0.101961, 1)
+border_width_top = 2
+border_color = Color(0.25098, 0.25098, 0.247059, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbgi4"]
+atlas = ExtResource("4_jyhfs")
+region = Rect2(0, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
+atlas = ExtResource("4_jyhfs")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyhfs"]
+atlas = ExtResource("4_jyhfs")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_jyhfs"]
+color = Color(0.25098, 0.25098, 0.247059, 1)
+vertical = true
 
 [node name="InterfaceRoot" type="Control"]
 layout_mode = 3
@@ -17,7 +38,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,24 +47,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_sugp2")
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 10.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 12.0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(1048, 648)
+size = Vector2i(1152, 598)
 render_target_update_mode = 4
 
-[node name="BG" type="TextureRect" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+[node name="BG" type="TextureRect" parent="VBoxContainer/SubViewportContainer/SubViewport"]
 visible = false
 z_index = -4096
 anchors_preset = 15
@@ -56,17 +73,50 @@ size_flags_vertical = 3
 texture = ExtResource("1_sugp2")
 stretch_mode = 1
 
-[node name="Main" type="Node2D" parent="HBoxContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("curr_room")]
-position = Vector2(350, 385)
+[node name="Main" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("curr_room")]
+position = Vector2(397, 384)
 scale = Vector2(2, 2)
 script = ExtResource("1_eldj0")
 curr_room = NodePath("BasicRoom")
 
-[node name="BasicRoom" parent="HBoxContainer/SubViewportContainer/SubViewport/Main" instance=ExtResource("2_0ui1j")]
+[node name="BasicRoom" parent="VBoxContainer/SubViewportContainer/SubViewport/Main" instance=ExtResource("2_0ui1j")]
 z_index = -4095
 
-[node name="FurniOptionButton" type="OptionButton" parent="HBoxContainer/SubViewportContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_sugp2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoomsButton" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(31.275, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_tbgi4")
+stretch_mode = 5
+
+[node name="InventoryButton" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(31.275, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_tefeu")
+stretch_mode = 5
+
+[node name="CatalogButton" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(31.275, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_jyhfs")
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_jyhfs")
+
+[node name="FurniOptionButton" type="OptionButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
-[connection signal="item_selected" from="HBoxContainer/SubViewportContainer/FurniOptionButton" to="HBoxContainer/SubViewportContainer/SubViewport/Main" method="_on_furni_option_button_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/PanelContainer/HBoxContainer/FurniOptionButton" to="VBoxContainer/SubViewportContainer/SubViewport/Main" method="_on_furni_option_button_item_selected"]
