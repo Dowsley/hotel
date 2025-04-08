@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://qsasokcehw0a"]
+[gd_scene load_steps=11 format=3 uid="uid://qsasokcehw0a"]
 
 [ext_resource type="Script" uid="uid://bkkkqwo08fqvp" path="res://src/main.gd" id="1_eldj0"]
 [ext_resource type="Texture2D" uid="uid://sk2uo8v4nver" path="res://assets/backgrounds/0.png" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://do2ql5uq371ey" path="res://scenes/rooms/basic_room.tscn" id="2_0ui1j"]
 [ext_resource type="Texture2D" uid="uid://cbnmpgj2tr4px" path="res://assets/ui/Catalog_Icons.png" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cogvikmb1nius" path="res://scenes/ui/inventory/inventory_window.tscn" id="4_tbgi4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
 content_margin_left = 16.0
@@ -82,6 +83,13 @@ curr_room = NodePath("BasicRoom")
 [node name="BasicRoom" parent="VBoxContainer/SubViewportContainer/SubViewport/Main" instance=ExtResource("2_0ui1j")]
 z_index = -4095
 
+[node name="InventoryWindow" parent="VBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("4_tbgi4")]
+unique_name_in_owner = true
+offset_left = 70.0
+offset_top = 217.0
+offset_right = -852.0
+offset_bottom = -160.0
+
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -114,9 +122,4 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_jyhfs")
 
-[node name="FurniOptionButton" type="OptionButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[connection signal="item_selected" from="VBoxContainer/PanelContainer/HBoxContainer/FurniOptionButton" to="VBoxContainer/SubViewportContainer/SubViewport/Main" method="_on_furni_option_button_item_selected"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/InventoryButton" to="VBoxContainer/SubViewportContainer/SubViewport/Main" method="_on_inventory_button_pressed"]

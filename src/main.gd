@@ -7,30 +7,21 @@ enum InputModes {
 }
 
 
-@onready var furni_option_button: OptionButton = %FurniOptionButton
-
-
-@export var furni_types_path: StringName = "res://data/furni_types"
 @export var curr_room: Room
 
+@onready var inv_window: InventoryWindow = %InventoryWindow
 
-var furni_types: Array[FurniType] = []
+
 var hovered_tile: Vector2i = Vector2i(-1, -1)
 var ghost_furni: FurniSprite = null
 var current_input_handler: InputHandler
 
 
 func _ready() -> void:
-	assert(curr_room != null, "Must have starting room.")
-
-	load_furni_types()
-	populate_option_button()
-	
-	furni_option_button.selected = 0
-	_on_furni_option_button_item_selected(0)
-	
 	set_input_handler(InputModes.PLACE)
-
+	inv_window.close_button_pressed.connect(_on_inventory_closed_button_pressed)
+	Inventory.furni_selected.connect(_on_furni_option_button_item_selected)
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -65,33 +56,11 @@ func _process(_delta: float) -> void:
 		current_input_handler.on_hover_tile_changed(hovered_tile)
 
 
-func load_furni_types() -> void:
-	var dir: DirAccess = DirAccess.open(furni_types_path)
-	assert(dir != null, "Failed to open directory: " + furni_types_path)
-
-	dir.list_dir_begin()
-	var file_name: String = dir.get_next()
-
-	while file_name != "":
-		if file_name.ends_with(".tres") or file_name.ends_with(".res"):
-			var resource: FurniType = load(furni_types_path + "/" + file_name)
-			if resource != null:
-				furni_types.append(resource)
-		file_name = dir.get_next()
-
-
-func populate_option_button() -> void:
-	furni_option_button.clear()
-	for i: int in range(furni_types.size()):
-		furni_option_button.add_item(furni_types[i].name, i)
-
-
-func _on_furni_option_button_item_selected(index: int) -> void:
+func _on_furni_option_button_item_selected(ft: FurniType) -> void:
 	if ghost_furni:
 		ghost_furni.queue_free()
 
-	var selected_furni: FurniType = furni_types[index]
-	ghost_furni = selected_furni.create()
+	ghost_furni = ft.create()
 	ghost_furni.modulate = Color(1, 1, 1, 0.5)
 	ghost_furni.z_index = 100
 	curr_room.add_child(ghost_furni)
@@ -128,3 +97,11 @@ func set_input_handler(mode: InputModes) -> void:
 			current_input_handler = SelectingInputHandler.new(self)
 	
 	current_input_handler.enter()
+
+
+func _on_inventory_button_pressed() -> void:
+	inv_window.visible = not inv_window.visible
+
+
+func _on_inventory_closed_button_pressed() -> void:
+	inv_window.hide()

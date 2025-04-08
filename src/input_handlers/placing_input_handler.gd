@@ -21,14 +21,10 @@ func handle_input(event: InputEvent) -> Command:
 					main.hovered_tile, 
 					main.ghost_furni.current_rotation_frame
 				)
-			MOUSE_BUTTON_RIGHT:
-				return CommandRegistry.create_remove_command(main.hovered_tile)
-	
+		
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Input.is_action_pressed("furni_rotate"):
 			return CommandRegistry.create_rotate_command()
-		elif Input.is_key_pressed(KEY_TAB):
-			main.set_input_handler(main.InputModes.SELECT)
 	
 	return null
 
