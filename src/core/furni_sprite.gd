@@ -21,13 +21,7 @@ var animation_timer := 0.0
 var current_anim_frame := 0
 var occupied_positions: Array[Vector2i] = []
 
-var curr_variation: int = 0:
-	set(value):
-		var count = type.variations.size()
-		if count > 0:
-			curr_variation = (value % count + count) % count  # ensures wraparound for negative values too
-		else:
-			curr_variation = 0  # fallback if no variations
+var curr_variation: int = 0
 
 func _ready() -> void:
 	assert(type != null, "Error: Can't create furni with no type.")
@@ -54,9 +48,17 @@ func setup(m_type: FurniType) -> void:
 	update_sorting()
 
 
+func switch_variation_to_next() -> void:
+	curr_variation += 1
+	if curr_variation >= type.variations.size():
+		curr_variation = 0
+
+
+## TODO: Join this together with setup.
 func refresh() -> void:
 	texture = type.get_variation(curr_variation).sprite_sheet
 	hframes = type.get_variation(curr_variation).hframes
+	frame_coords.y = current_rotation_frame
 	
 	# Basic z-index from the type
 	if type.y_sort_origin != 0:

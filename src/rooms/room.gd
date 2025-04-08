@@ -149,7 +149,7 @@ func switch_variation_at_position(pos: Vector2i) -> bool:
 	if not furni:
 		return false
 	
-	furni.curr_variation += 1
+	furni.switch_variation_to_next()
 	furni.refresh()
 	
 	# Ensure the furniture remains visible after variation change
