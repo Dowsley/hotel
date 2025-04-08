@@ -39,12 +39,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="DraggablePanel" type="Panel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 20.975)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qpw64")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DraggablePanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_right = 10
 
-[node name="CloseButton" type="Button" parent="VBoxContainer/Panel/MarginContainer"]
+[node name="CloseButton" type="Button" parent="VBoxContainer/DraggablePanel/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -76,4 +76,5 @@ theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
 columns = 4
 
-[connection signal="pressed" from="VBoxContainer/Panel/MarginContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="gui_input" from="VBoxContainer/DraggablePanel" to="." method="_on_draggable_panel_gui_input"]
+[connection signal="pressed" from="VBoxContainer/DraggablePanel/MarginContainer/CloseButton" to="." method="_on_close_button_pressed"]

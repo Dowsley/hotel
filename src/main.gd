@@ -18,7 +18,7 @@ var current_input_handler: InputHandler
 
 
 func _ready() -> void:
-	set_input_handler(InputModes.PLACE)
+	set_input_handler(InputModes.SELECT)
 	inv_window.close_button_pressed.connect(_on_inventory_closed_button_pressed)
 	Inventory.furni_selected.connect(_on_furni_option_button_item_selected)
 	
@@ -57,6 +57,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_furni_option_button_item_selected(ft: FurniType) -> void:
+	set_input_handler(InputModes.PLACE)
 	if ghost_furni:
 		ghost_furni.queue_free()
 
