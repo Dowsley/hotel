@@ -18,7 +18,7 @@ func _ready() -> void:
 	for ft: FurniType in Inventory.furnis:
 		var inv_slot: InvSlot = inv_slot_scene.instantiate()
 		inv_grid.add_child(inv_slot)
-		inv_slot.set_furni(ft)
+		inv_slot.set_furni(ft, Inventory.furnis[ft])
 		inv_slot.furni_slot_selected.connect(_on_furni_slot_selected)
 
 
