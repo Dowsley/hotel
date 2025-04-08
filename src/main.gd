@@ -39,8 +39,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	if ghost_furni:
-		print(ghost_furni.z_index)
 	var mouse_pos := get_global_mouse_position()
 	var new_hovered_tile := curr_room.world_to_tile(mouse_pos)
 	
