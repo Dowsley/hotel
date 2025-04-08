@@ -71,11 +71,9 @@ func update_grid_markers_at_tile(tile_pos: Vector2i, furni: FurniSprite) -> bool
 			var p := positions_to_occupy[i]
 			var is_valid_pos := is_valid_tile_position(p)
 			gm.color = GRID_MARKER_AVAILABLE_COLOR if is_valid_pos else GRID_MARKER_OCCUPIED_COLOR
-			
 			# Use local coordinates for the grid markers since they're children of this node
 			var local_pos := tile_to_local(p)
 			gm.position = local_pos
-			
 			gm.visible = true
 			
 			can_place_tile = can_place_tile && is_valid_pos

@@ -1,6 +1,9 @@
 class_name InvSlot extends Panel
 
 
+signal furni_slot_selected(slot: InvSlot)
+
+
 @onready var icon: Sprite2D = %Icon
 
 
@@ -14,6 +17,18 @@ func set_furni(ft: FurniType) -> void:
 	var cropped := crop_to_used_rect(frame_image)
 	var resized := resize_to(cropped, 32, 32)
 	icon.texture = resized
+
+
+func select() -> void:
+	var style := get("theme_override_styles/panel") as StyleBoxFlat
+	style.set_border_width_all(2)
+	queue_redraw()
+
+
+func unselect() -> void:
+	var style := get("theme_override_styles/panel") as StyleBoxFlat
+	style.set_border_width_all(1)
+	queue_redraw()
 
 
 func resize_to(texture: ImageTexture, width: int, height: int) -> ImageTexture:
@@ -64,4 +79,4 @@ func crop_to_used_rect(texture: ImageTexture) -> ImageTexture:
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		Inventory.furni_selected.emit(furni_type)
+		furni_slot_selected.emit(self)

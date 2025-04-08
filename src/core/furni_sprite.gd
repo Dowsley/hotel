@@ -11,7 +11,6 @@ class_name FurniSprite extends Sprite2D
 @export var current_rotation_frame := 0:
 	set(value):
 		current_rotation_frame = max(min(value, type.vframes-1), 0)
-		current_rotation_frame = max(min(value, type.vframes-1), 0)
 		curr_variation = 0
 		set_rotation_frame(current_rotation_frame)
 		update_sorting()  # Update sorting when rotation changes
@@ -68,6 +67,11 @@ func refresh() -> void:
 
 ## Updates sorting to account for rotation and size.
 func update_sorting() -> void:
+	# If this is a ghost furniture (z_index is already set to a high value like 100),
+	# preserve that high z-index and don't calculate depth 
+	if z_index >= 100:
+		return
+		
 	var extends_by := get_area_extends_by()
 	
 	if extends_by != Vector2i.ZERO:

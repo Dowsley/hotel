@@ -85,6 +85,7 @@ z_index = -4095
 
 [node name="InventoryWindow" parent="VBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("4_tbgi4")]
 unique_name_in_owner = true
+visible = false
 offset_left = 70.0
 offset_top = 217.0
 offset_right = -852.0

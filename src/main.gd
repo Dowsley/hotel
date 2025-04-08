@@ -24,13 +24,6 @@ func _ready() -> void:
 	
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_TAB:
-			var next_mode := InputModes.PLACE if current_input_handler is SelectingInputHandler else InputModes.SELECT
-			set_input_handler(next_mode)
-			get_viewport().set_input_as_handled()
-			return
-			
 	#if event is InputEventMouseButton and event.pressed:
 		#match event.button_index:
 			#MOUSE_BUTTON_WHEEL_UP:
@@ -39,15 +32,15 @@ func _unhandled_input(event: InputEvent) -> void:
 				#zoom_camera(zoom_step)
 	
 	var command := current_input_handler.handle_input(event)
-	
 	if command:
 		var success := CommandRegistry.execute_command(command, self)
-		
 		if success and current_input_handler:
 			current_input_handler.on_hover_tile_changed(hovered_tile)
 
 
 func _process(_delta: float) -> void:
+	if ghost_furni:
+		print(ghost_furni.z_index)
 	var mouse_pos := get_global_mouse_position()
 	var new_hovered_tile := curr_room.world_to_tile(mouse_pos)
 	

@@ -10,6 +10,8 @@ var double_click_threshold: int = 300  # Milliseconds
 func enter() -> void:
 	if main.ghost_furni:
 		main.ghost_furni.visible = false
+	
+	show_single_grid_marker(main.hovered_tile)
 
 
 func exit() -> void:
@@ -48,9 +50,24 @@ func handle_input(event: InputEvent) -> Command:
 
 
 func on_hover_tile_changed(tile: Vector2i) -> void:
-	# Only update grid markers in selection mode, keep ghost invisible
-	if main.ghost_furni:
-		main.curr_room.update_grid_markers_at_tile(tile, main.ghost_furni)
+	show_single_grid_marker(tile)
+
+
+func show_single_grid_marker(tile: Vector2i) -> void:
+	var room := main.curr_room
+	var grid_markers := room.grid_marker_pool
+	
+	if grid_markers.size() > 0:
+		# Show only the first grid marker at the current tile
+		var gm := grid_markers[0]
+		var is_valid := room.is_valid_tile_position(tile)
+		gm.color = room.GRID_MARKER_AVAILABLE_COLOR if is_valid else room.GRID_MARKER_OCCUPIED_COLOR
+		gm.position = room.tile_to_local(tile)
+		gm.visible = true
+		
+		# Hide all other markers
+		for i in range(1, grid_markers.size()):
+			grid_markers[i].visible = false
 
 
 func on_furniture_selected() -> void:
