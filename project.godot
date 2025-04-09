@@ -29,7 +29,6 @@ CommandRegistry="*res://src/autoloads/command_registry.gd"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="viewport"
 
 [dotnet]

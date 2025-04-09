@@ -10,6 +10,7 @@ enum InputModes {
 @export var curr_room: Room
 
 @onready var inv_window: InventoryWindow = %InventoryWindow
+@onready var selected_furni_window: SelectedFurniWindow = %SelectedFurniWindow
 
 
 var hovered_tile: Vector2i = Vector2i(-1, -1)

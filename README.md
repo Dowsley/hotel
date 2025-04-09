@@ -16,14 +16,15 @@
 		- [X] Should show preview of all items.
 		- [X] For now, we should have 99 instances of each type of item.
 		- [X] Deduct items when placing 
-	- [ ] Interaction Modes (start top to bottom for ease)
-		- [ ] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
+	- [...] Interaction Modes (start top to bottom for ease)
+		- [...] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
 			- Build mode: Inventory & placing objects
 			- Should mostly look like what it already does now
-		- [ ] Select: Clicking will select furnis
+		- [...] Select: Clicking will select furnis
 			- Popup with actions should appear.
 			- Actions: Rotate, move, pick up (adds back to inventory)
 - [ ] Major refactor for consolidating rendering vs state (data-view model)
+- [ ] Consolidate UI theme!
 - [ ] Spike: Generate Furni Data AUTOMATICALLY from assets folder
 	- We already have a strict sizing for spritesheets.
 	- We already have strict naming for variations
