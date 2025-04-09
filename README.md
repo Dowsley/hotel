@@ -15,7 +15,7 @@
 	- [...] Inventory
 		- [X] Should show preview of all items.
 		- [X] For now, we should have 99 instances of each type of item.
-        - [...] Deduct items when placing 
+		- [...] Deduct items when placing 
 	- [ ] Interaction Modes (start top to bottom for ease)
 		- [ ] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
 			- Build mode: Inventory & placing objects

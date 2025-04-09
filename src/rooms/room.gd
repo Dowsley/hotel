@@ -1,6 +1,6 @@
 class_name Room extends Node2D
 
-
+const GRID_MARKER_SELECT_COLOR := Color(1, 1, 1)
 const GRID_MARKER_AVAILABLE_COLOR := Color(1, 1, 0)
 const GRID_MARKER_OCCUPIED_COLOR := Color(1, 0, 0)
 
