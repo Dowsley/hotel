@@ -22,6 +22,8 @@ func _ready() -> void:
 	set_input_handler(InputModes.SELECT)
 	inv_window.close_button_pressed.connect(_on_inventory_closed_button_pressed)
 	Inventory.furni_selected.connect(_on_furni_option_button_item_selected)
+	selected_furni_window.furniture_variation_requested.connect(_on_furniture_variation_requested)
+	selected_furni_window.furniture_rotation_requested.connect(_on_furniture_rotation_requested)
 	
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -98,3 +100,13 @@ func _on_inventory_button_pressed() -> void:
 
 func _on_inventory_closed_button_pressed() -> void:
 	inv_window.hide()
+
+
+func _on_furniture_variation_requested(pos: Vector2i) -> void:
+	var command := CommandRegistry.create_variation_command(pos)
+	CommandRegistry.execute_command(command, self)
+
+
+func _on_furniture_rotation_requested(pos: Vector2i) -> void:
+	var command := CommandRegistry.create_furniture_rotate_command(pos)
+	CommandRegistry.execute_command(command, self)

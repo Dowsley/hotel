@@ -28,7 +28,7 @@ func handle_input(event: InputEvent) -> Command:
 	
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Input.is_action_pressed("furni_rotate"):
-			return CommandRegistry.create_rotate_command()
+			return CommandRegistry.create_rotate_ghost_furni_command()
 		if Input.is_action_just_pressed("exit_mode"):
 			main.set_input_handler(main.InputModes.SELECT)
 	

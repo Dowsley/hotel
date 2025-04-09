@@ -15,6 +15,7 @@ func enter() -> void:
 func exit() -> void:
 	# Clear any selection state when exiting
 	selected_furniture = null
+	main.selected_furni_window.hide()
 
 
 func handle_input(event: InputEvent) -> Command:
@@ -34,8 +35,10 @@ func handle_input(event: InputEvent) -> Command:
 					else:
 						# Single click - just select
 						selected_furniture = furniture
+						main.selected_furni_window.setup(furniture)
 				else:
 					selected_furniture = null
+					main.selected_furni_window.hide()
 	
 	return null
 

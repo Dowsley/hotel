@@ -1,36 +1,40 @@
-class_name SelectedFurniWindow extends Panel
+class_name SelectedFurniWindow extends VBoxContainer
 
 
-@onready var furni_icon: FurniSprite = %FurniIcon
+signal furniture_variation_requested(position: Vector2i)
+signal furniture_rotation_requested(position: Vector2i)
+
+
+@onready var furni_icon: Sprite2D = %FurniIcon
 @onready var title_label: Label = %TitleLabel
 
-var furni_type: FurniType
+
+var selected_furni: FurniSprite
 
 
-func setup(ft: FurniType) -> void:
-	furni_type = ft
+func setup(furni: FurniSprite) -> void:
+	selected_furni = furni
 	
-	var sprite := ft.create()
-	var frame_image := GraphicsUtil.get_current_sprite_frame_texture(sprite)
+	var frame_image := GraphicsUtil.get_current_sprite_frame_texture(furni)
 	var cropped := GraphicsUtil.crop_to_used_rect(frame_image)
-	var resized := GraphicsUtil.resize_image_texture_to(cropped, 32, 32)
-	furni_icon.texture = resized
-	title_label.text = ft.name
+	var resized_img := GraphicsUtil.resize_image_texture_to(cropped, 32, 32)
+	furni_icon.texture = resized_img
+	title_label.text = furni.type.name
 	show()
 
 
 func _on_use_button_pressed() -> void:
-	Inventory.furni_selected.emit(furni_type)
-	hide()
+	var pos := selected_furni.occupied_positions[0]
+	furniture_variation_requested.emit(pos)
 
 
 func _on_turn_button_pressed() -> void:
-	pass
+	var pos := selected_furni.occupied_positions[0]
+	furniture_rotation_requested.emit(pos)
 
 
 func _on_move_button_pressed() -> void:
-	# Switch to placing mode with this furniture
-	Inventory.furni_selected.emit(furni_type)
+	Inventory.furni_selected.emit(selected_furni.type)
 	hide()
 
 

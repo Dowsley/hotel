@@ -94,6 +94,7 @@ func update_ghost_visibility(ghost: FurniSprite, tile_pos: Vector2i, can_place: 
 	else:
 		ghost.visible = false
 
+
 func get_furniture_at_tile(tile_pos: Vector2i) -> FurniSprite:
 	return furni_by_position.get(tile_pos)
 	

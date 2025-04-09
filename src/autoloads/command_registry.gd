@@ -30,8 +30,12 @@ func create_remove_command(tile_pos: Vector2i) -> Command:
 	return RemoveFurnitureCommand.new(tile_pos)
 
 
-func create_rotate_command() -> Command:
-	return RotateFurnitureCommand.new()
+func create_rotate_ghost_furni_command() -> Command:
+	return RotateGhostFurniCommand.new()
+
+
+func create_furniture_rotate_command(tile_pos: Vector2i) -> Command:
+	return RotateFurnitureCommand.new(tile_pos)
 
 
 func create_variation_command(tile_pos: Vector2i) -> Command:

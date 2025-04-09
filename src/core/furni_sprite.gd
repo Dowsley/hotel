@@ -112,10 +112,8 @@ func set_animation_frame(target_h_frame: int) -> void:
 func rotate_to_next_frame() -> int:
 	# Calculate the next rotation frame (wrap around when reaching max frames)
 	var next_rotation := (current_rotation_frame + 1) % type.vframes
-	
 	# Use the setter which handles bounds checking and applying the visual change
 	current_rotation_frame = next_rotation
-	
 	return current_rotation_frame
 
 
