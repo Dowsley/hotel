@@ -12,10 +12,10 @@
 - [...] UI + Better controls and handling (BIG FEATURE)
 	- Closer to habbo! But better. Will need to find assets.
 	- [X] Basic dock with buttons.
-	- [...] Inventory
+	- [X] Inventory
 		- [X] Should show preview of all items.
 		- [X] For now, we should have 99 instances of each type of item.
-		- [...] Deduct items when placing 
+		- [X] Deduct items when placing 
 	- [ ] Interaction Modes (start top to bottom for ease)
 		- [ ] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
 			- Build mode: Inventory & placing objects
@@ -23,6 +23,7 @@
 		- [ ] Select: Clicking will select furnis
 			- Popup with actions should appear.
 			- Actions: Rotate, move, pick up (adds back to inventory)
+- [ ] Major refactor for consolidating rendering vs state (data-view model)
 - [ ] Spike: Generate Furni Data AUTOMATICALLY from assets folder
 	- We already have a strict sizing for spritesheets.
 	- We already have strict naming for variations

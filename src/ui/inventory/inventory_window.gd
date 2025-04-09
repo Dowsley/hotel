@@ -12,6 +12,7 @@ signal close_button_pressed
 var dragging := false
 var drag_offset := Vector2.ZERO
 var selected_slot: InvSlot = null
+var slots_by_furni_type: Dictionary = {}
 
 
 func _ready() -> void:
@@ -20,6 +21,10 @@ func _ready() -> void:
 		inv_grid.add_child(inv_slot)
 		inv_slot.set_furni(ft, Inventory.furnis[ft])
 		inv_slot.furni_slot_selected.connect(_on_furni_slot_selected)
+		slots_by_furni_type[ft] = inv_slot
+	
+	# Connect to inventory signals
+	Inventory.furni_amount_changed.connect(_on_furni_amount_changed)
 
 
 func _process(_delta: float) -> void:
@@ -47,3 +52,10 @@ func _on_furni_slot_selected(slot: InvSlot) -> void:
 		slot.unselect()
 	slot.select()
 	selected_slot = slot
+
+
+## Update the UI when furniture amount changes
+func _on_furni_amount_changed(ft: FurniType, new_amount: int) -> void:
+	if slots_by_furni_type.has(ft):
+		var slot = slots_by_furni_type[ft]
+		slot.set_furni(ft, new_amount)

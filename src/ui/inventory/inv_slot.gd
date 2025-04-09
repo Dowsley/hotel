@@ -9,15 +9,13 @@ signal furni_slot_selected(slot: InvSlot)
 
 
 var furni_type: FurniType
-var amount: int:
-	set(value):
-		amount_label.text = str(value)
-		amount = value
+var _amount: int
 
 
 func set_furni(ft: FurniType, m_amount: int) -> void:
 	furni_type = ft
-	amount = m_amount
+	_amount = m_amount
+	amount_label.text = str(m_amount)
 	
 	var sprite := ft.create()
 	var frame_image := GraphicsUtil.get_current_sprite_frame_texture(sprite)
