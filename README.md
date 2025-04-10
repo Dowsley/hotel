@@ -7,21 +7,28 @@
 - [X] Variations (clicking twice)
 	- Pay attention to animation modes
 		- Case in point: `Kitchen_sink_0_A` and `Kitchen_sink_0_B`
-		- Variations will be like rotating between different spritesheets.
-	- Pay attention to rotation (and things that cant or shouldnt be rotated, like wall stuff)
-- [ ] UI + Better controls and handling (BIG FEATURE)
+		- Variations will be like rotating between different SpriteSheets.
+	- Pay attention to rotation (and things that cant or shouldn't be rotated, like wall stuff)
+- [...] UI + Better controls and handling (BIG FEATURE)
 	- Closer to habbo! But better. Will need to find assets.
-	- [ ] Basic dock with buttons. Should probably be vertical on the left for clean look.
-	- [ ] Inventory
-		- Should show preview of all items.
-		- For now, we should have 99 instances of each type of item.
-	- [ ] Interaction Modes (start top to bottom for ease)
-		- [ ] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
+	- [X] Basic dock with buttons.
+	- [X] Inventory
+		- [X] Should show preview of all items.
+		- [X] For now, we should have 99 instances of each type of item.
+		- [X] Deduct items when placing 
+	- [...] Interaction Modes (start top to bottom for ease)
+		- [...] Place: Triggered either from inventory or from clicking "move" on a furni from Select mode.
 			- Build mode: Inventory & placing objects
 			- Should mostly look like what it already does now
-		- [ ] Select: Clicking will select furnis
+		- [...] Select: Clicking will select furnis
 			- Popup with actions should appear.
-			- Actions: Rotate, move, pick up.
+			- Actions: Rotate, move, pick up (adds back to inventory)
+- [ ] Major refactor for consolidating rendering vs state (data-view model)
+- [ ] Consolidate UI theme!
+- [ ] Spike: Generate Furni Data AUTOMATICALLY from assets folder
+	- We already have a strict sizing for spritesheets.
+	- We already have strict naming for variations
+	- Dynamically generate that on load!
 - [ ] Wall objects should NOT be like regular Furniture.
 	- Make them like Habbo
 - [ ] Stacking

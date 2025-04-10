@@ -11,7 +11,6 @@ class_name FurniSprite extends Sprite2D
 @export var current_rotation_frame := 0:
 	set(value):
 		current_rotation_frame = max(min(value, type.vframes-1), 0)
-		current_rotation_frame = max(min(value, type.vframes-1), 0)
 		curr_variation = 0
 		set_rotation_frame(current_rotation_frame)
 		update_sorting()  # Update sorting when rotation changes
@@ -22,13 +21,7 @@ var animation_timer := 0.0
 var current_anim_frame := 0
 var occupied_positions: Array[Vector2i] = []
 
-var curr_variation: int = 0:
-	set(value):
-		var count = type.variations.size()
-		if count > 0:
-			curr_variation = (value % count + count) % count  # ensures wraparound for negative values too
-		else:
-			curr_variation = 0  # fallback if no variations
+var curr_variation: int = 0
 
 func _ready() -> void:
 	assert(type != null, "Error: Can't create furni with no type.")
@@ -55,9 +48,17 @@ func setup(m_type: FurniType) -> void:
 	update_sorting()
 
 
+func switch_variation_to_next() -> void:
+	curr_variation += 1
+	if curr_variation >= type.variations.size():
+		curr_variation = 0
+
+
+## TODO: Join this together with setup.
 func refresh() -> void:
 	texture = type.get_variation(curr_variation).sprite_sheet
 	hframes = type.get_variation(curr_variation).hframes
+	frame_coords.y = current_rotation_frame
 	
 	# Basic z-index from the type
 	if type.y_sort_origin != 0:
@@ -68,6 +69,11 @@ func refresh() -> void:
 
 ## Updates sorting to account for rotation and size.
 func update_sorting() -> void:
+	# If this is a ghost furniture (z_index is already set to a high value like 100),
+	# preserve that high z-index and don't calculate depth 
+	if z_index >= 100:
+		return
+		
 	var extends_by := get_area_extends_by()
 	
 	if extends_by != Vector2i.ZERO:
@@ -106,10 +112,8 @@ func set_animation_frame(target_h_frame: int) -> void:
 func rotate_to_next_frame() -> int:
 	# Calculate the next rotation frame (wrap around when reaching max frames)
 	var next_rotation := (current_rotation_frame + 1) % type.vframes
-	
 	# Use the setter which handles bounds checking and applying the visual change
 	current_rotation_frame = next_rotation
-	
 	return current_rotation_frame
 
 

@@ -1,6 +1,6 @@
 class_name Room extends Node2D
 
-
+const GRID_MARKER_SELECT_COLOR := Color(1, 1, 1)
 const GRID_MARKER_AVAILABLE_COLOR := Color(1, 1, 0)
 const GRID_MARKER_OCCUPIED_COLOR := Color(1, 0, 0)
 
@@ -20,6 +20,15 @@ var grid_marker_pool: Array[GridMarker] = []
 
 func _ready() -> void:
 	setup_grid_markers()
+	
+	# Reset furniture container transform to avoid scaling issues
+	if furniture_container:
+		furniture_container.position = Vector2.ZERO
+		furniture_container.scale = Vector2.ONE
+		
+		# Ensure the furniture container is properly set up for visibility
+		furniture_container.z_index = 1 # Above the floor/grid but below UI
+		furniture_container.y_sort_enabled = true
 
 
 ## Creates a dedicated node for showing the grid highlight
@@ -34,7 +43,7 @@ func create_grid_marker() -> GridMarker:
 ## Benefit of having a pool is obvious: We don't want to create and free them at request.
 ## We will create an arbitrary number here: 16 (represents a 4x4 furni at max)
 func setup_grid_markers() -> void:
-	for i in 16: # TODO: Calculate dynamically based on largest Furni
+	for i in 16: # TODO: Dynamically calculate this based on largest furniture
 		var gm := create_grid_marker()
 		gm.hide()
 		grid_marker_pool.append(gm)
@@ -42,35 +51,53 @@ func setup_grid_markers() -> void:
 
 ## Updates ghost furniture visibility based on current hover position
 func update_ghost_at_tile(ghost: FurniSprite, tile_pos: Vector2i) -> void:
-		var can_place_tile := true
-		var positions_to_occupy := get_positions_furni_will_occupy(tile_pos, ghost)
-		var n_positions := positions_to_occupy.size()
-		var n_grid_markers := grid_marker_pool.size()
-		
-		# Update grid markers
-		var i := 0
-		while i < n_grid_markers:
-			var gm := grid_marker_pool[i]
-			if i < n_positions:
-				var p := positions_to_occupy[i]
-				var is_valid_pos := is_valid_tile_position(p)
-				gm.color = GRID_MARKER_AVAILABLE_COLOR if is_valid_pos else GRID_MARKER_OCCUPIED_COLOR
-				gm.position = tile_to_world(p)
-				gm.visible = true
-				
-				can_place_tile = can_place_tile && is_valid_pos
-			else:
-				gm.visible = false
-			i += 1
-		
-		# Update ghost
-		if can_place_tile:
-			ghost.position = tile_to_world(tile_pos)
-			ghost.position += ghost.type.visual_offset
-			ghost.visible = true
-		else:
-			ghost.visible = false
+	var can_place := update_grid_markers_at_tile(tile_pos, ghost)
+	update_ghost_visibility(ghost, tile_pos, can_place)
 
+
+## Updates only the grid markers for a given tile position and furniture
+## Returns whether placement is valid
+func update_grid_markers_at_tile(tile_pos: Vector2i, furni: FurniSprite) -> bool:
+	var can_place_tile := true
+	var positions_to_occupy := get_positions_furni_will_occupy(tile_pos, furni) 
+	var n_positions := positions_to_occupy.size()
+	var n_grid_markers := grid_marker_pool.size()
+	
+	# Update grid markers
+	var i := 0
+	while i < n_grid_markers:
+		var gm := grid_marker_pool[i]
+		if i < n_positions:
+			var p := positions_to_occupy[i]
+			var is_valid_pos := is_valid_tile_position(p)
+			gm.color = GRID_MARKER_AVAILABLE_COLOR if is_valid_pos else GRID_MARKER_OCCUPIED_COLOR
+			# Use local coordinates for the grid markers since they're children of this node
+			var local_pos := tile_to_local(p)
+			gm.position = local_pos
+			gm.visible = true
+			
+			can_place_tile = can_place_tile && is_valid_pos
+		else:
+			gm.visible = false
+		i += 1
+	
+	return can_place_tile
+
+
+## Updates only the ghost furniture visibility
+func update_ghost_visibility(ghost: FurniSprite, tile_pos: Vector2i, can_place: bool) -> void:
+	if can_place:
+		# Use local coordinates since ghost is a child of this node
+		ghost.position = tile_to_local(tile_pos)
+		ghost.position += ghost.type.visual_offset
+		ghost.visible = true
+	else:
+		ghost.visible = false
+
+
+func get_furniture_at_tile(tile_pos: Vector2i) -> FurniSprite:
+	return furni_by_position.get(tile_pos)
+	
 
 ## Check if a tile position is valid for placing furniture
 func is_valid_tile_position(tile_pos: Vector2i) -> bool:
@@ -87,13 +114,21 @@ func is_valid_tile_position(tile_pos: Vector2i) -> bool:
 func place_furniture(ghost_furni: FurniSprite, tile_pos: Vector2i, rotation_frame: int = 0) -> bool:
 	if is_valid_tile_position(tile_pos):
 		var furni_type := ghost_furni.type
-		var furni_sprite: FurniSprite = furni_type.create()
+		var furni_sprite := furni_type.create()
 		
-		var tile_center_world := floor_tile_map.to_global(floor_tile_map.map_to_local(tile_pos))
+		var local_pos := tile_to_local(tile_pos)
 		
-		furni_sprite.position = tile_center_world
+		# Adjust coordinates for furniture container if needed
+		if furniture_container != self:
+			local_pos = furniture_container.to_local(to_global(local_pos))
+			
+		furni_sprite.position = local_pos
 		furni_sprite.position += furni_type.visual_offset
+		furni_sprite.visible = true
+		
+		# Ensure proper z-index sorting
 		furni_sprite.current_rotation_frame = rotation_frame
+		furni_sprite.z_index = max(1, furni_sprite.z_index)
 		furniture_container.add_child(furni_sprite)
 
 		var positions := get_positions_furni_will_occupy(tile_pos, furni_sprite)
@@ -115,8 +150,14 @@ func switch_variation_at_position(pos: Vector2i) -> bool:
 	if not furni:
 		return false
 	
-	furni.curr_variation += 1
+	furni.switch_variation_to_next()
 	furni.refresh()
+	
+	# Ensure the furniture remains visible after variation change
+	furni.visible = true
+	# Ensure z-index is maintained properly
+	furni.z_index = max(1, furni.z_index)
+	
 	return true
 
 
@@ -136,12 +177,18 @@ func remove_furniture(tile_pos: Vector2i) -> bool:
 
 ## Convert world position to tile coordinates
 func world_to_tile(world_pos: Vector2) -> Vector2i:
-	return floor_tile_map.local_to_map(floor_tile_map.to_local(world_pos))
+	var local_pos := to_local(world_pos)
+	return floor_tile_map.local_to_map(local_pos)
+
+
+## Convert tile coordinates to local node position
+func tile_to_local(tile_pos: Vector2i) -> Vector2:
+	return floor_tile_map.map_to_local(tile_pos)
 
 
 ## Convert tile coordinates to world position
 func tile_to_world(tile_pos: Vector2i) -> Vector2:
-	return floor_tile_map.to_global(floor_tile_map.map_to_local(tile_pos))
+	return to_global(tile_to_local(tile_pos))
 
 
 ## Better to consolidate logic here, even if it's "slow"
@@ -154,9 +201,7 @@ func get_positions_furni_will_occupy(curr_tile_pos: Vector2i, furni: FurniSprite
 	var y_end: int = max(bound_start.y, bound_end.y)
 	
 	var results: Array[Vector2i] = []
-	# Add 1 to the end values to ensure at least one iteration even when start == end
 	for x in range(x_start, x_end + 1):
 		for y in range(y_start, y_end + 1):
-			var pos := Vector2i(x, y)
-			results.append(pos)
+			results.append(Vector2i(x, y))
 	return results

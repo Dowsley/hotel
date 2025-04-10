@@ -1,0 +1,80 @@
+[gd_scene load_steps=6 format=3 uid="uid://cogvikmb1nius"]
+
+[ext_resource type="Script" uid="uid://bpmge70jbomro" path="res://src/ui/inventory/inventory_window.gd" id="1_o763c"]
+[ext_resource type="PackedScene" uid="uid://oapm6l8vo4w1" path="res://scenes/ui/inventory/inv_slot.tscn" id="2_eie6t"]
+[ext_resource type="Texture2D" uid="uid://b60gwyafmkeu4" path="res://assets/icons/colored/cross.png" id="3_qpw64"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eie6t"]
+bg_color = Color(0.929412, 0.909804, 0.882353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpw64"]
+bg_color = Color(0.215686, 0.470588, 0.596078, 1)
+border_width_bottom = 1
+border_color = Color(0.0352941, 0.0313726, 0.0196078, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[node name="InventoryWindow" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -868.0
+offset_bottom = -455.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eie6t")
+script = ExtResource("1_o763c")
+inv_slot_scene = ExtResource("2_eie6t")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DraggablePanel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20.975)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qpw64")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/DraggablePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 10
+
+[node name="CloseButton" type="Button" parent="VBoxContainer/DraggablePanel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+icon = ExtResource("3_qpw64")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="InvGrid" type="GridContainer" parent="VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 4
+
+[connection signal="gui_input" from="VBoxContainer/DraggablePanel" to="." method="_on_draggable_panel_gui_input"]
+[connection signal="pressed" from="VBoxContainer/DraggablePanel/MarginContainer/CloseButton" to="." method="_on_close_button_pressed"]
